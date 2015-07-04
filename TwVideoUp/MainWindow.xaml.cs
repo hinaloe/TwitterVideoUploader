@@ -5,26 +5,16 @@
 // This software is released under the MIT License.
 // http://opensource.org/licenses/mit-license.php
 //
-using CoreTweet;
+
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Markup;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+using CoreTweet;
+using Microsoft.Win32;
 using TwVideoUp.Core;
+using TwVideoUp.Properties;
 
 namespace TwVideoUp
 {
@@ -44,9 +34,9 @@ namespace TwVideoUp
                 Status = "",
                 Media = null
             };
-            this.DataContext = status;
+            DataContext = status;
 
-            if(Properties.Settings.Default.token=="")
+            if(Settings.Default.token=="")
             {
                 try
                 {
@@ -55,22 +45,22 @@ namespace TwVideoUp
                 }
                 catch (Exception e)
                 {
-                    System.Windows.MessageBox.Show(e.Message, "Error");
+                    MessageBox.Show(e.Message, "Error");
                 }
             }
 
             ContextMenuGen();
 
             tokens = Tokens.Create(Twitter.CK, Twitter.CS, 
-                Properties.Settings.Default.token, 
-                Properties.Settings.Default.secret
+                Settings.Default.token, 
+                Settings.Default.secret
                 );
 
 
 
         }
 
-        public CoreTweet.Tokens tokens;
+        public Tokens tokens;
 
         /// <summary>
         /// コンテキストメニューを生成、バインドします。
@@ -81,15 +71,15 @@ namespace TwVideoUp
             // Re-Auth
             MenuItem menuItemReAuth = new MenuItem();
             menuItemReAuth.Header = Properties.Resources.menuReauth;
-            menuItemReAuth.Click += new RoutedEventHandler(ReAuth);
+            menuItemReAuth.Click += ReAuth;
             menu.Items.Add(menuItemReAuth);
             // About APP
             MenuItem menuItemAbout = new MenuItem();
             menuItemAbout.Header = String.Format(Properties.Resources.AboutThis, "TwVideoUp");
-            menuItemAbout.Click += new RoutedEventHandler(AboutApp);
+            menuItemAbout.Click += AboutApp;
             menu.Items.Add(menuItemAbout);
 
-            this.ContextMenu = menu;
+            ContextMenu = menu;
         }
 
         /// <summary>
@@ -102,8 +92,8 @@ namespace TwVideoUp
             AuthWindow w = new AuthWindow();
             w.ShowDialog();
             tokens = Tokens.Create(Twitter.CK, Twitter.CS,
-                Properties.Settings.Default.token,
-                Properties.Settings.Default.secret
+                Settings.Default.token,
+                Settings.Default.secret
                 );
 
         }
@@ -125,11 +115,11 @@ namespace TwVideoUp
             string dir;
             var context = DataContext as StatusWM;
             try {
-                dir = System.IO.Path.GetDirectoryName(context.Media.LocalPath);
+                dir = Path.GetDirectoryName(context.Media.LocalPath);
             }catch { dir = null; }
-            var filename = this.fileDialog_Open(dir);
+            var filename = fileDialog_Open(dir);
             context.Media = new Uri(filename);
-            System.IO.FileInfo fi = new System.IO.FileInfo(filename);
+            FileInfo fi = new FileInfo(filename);
             long fileSize = fi.Length;
             if(fi.Length > 15*1024*1024)
             {
@@ -147,20 +137,17 @@ namespace TwVideoUp
         /// <returns>選択したファイルのローカルパス(nullable)</returns>
         private string fileDialog_Open(string initaldir = null)
         {
-            var fileDialog = new Microsoft.Win32.OpenFileDialog();
+            var fileDialog = new OpenFileDialog();
             fileDialog.DefaultExt = ".mp4";
             fileDialog.Filter = "MP4 video (*.mp4)|*.mp4";
             fileDialog.InitialDirectory = initaldir;
 
-            Nullable<bool> res = fileDialog.ShowDialog();
+            bool? res = fileDialog.ShowDialog();
             if(res == true)
             {
                 return fileDialog.FileName;
             }
-            else
-            {
-                return null;
-            }
+            return null;
         }
 
 //        private void mediaElement_MediaOpened(object sender, RoutedEventArgs e)
@@ -212,7 +199,7 @@ namespace TwVideoUp
             Window c = new Window();
             c.Content = media;
             c.Title = "Preview";
-            c.WindowStyle = System.Windows.WindowStyle.ToolWindow;
+            c.WindowStyle = WindowStyle.ToolWindow;
             c.Show();
 
         }
@@ -264,10 +251,9 @@ namespace TwVideoUp
             }
             catch(Exception e)
             {
-                
-                System.Windows.MessageBox.Show(e.Message, "Error!");
-                Console.WriteLine(e.StackTrace);
                 AfterSendTweet(FAIL);
+                Console.WriteLine(e.StackTrace);
+                MessageBox.Show(e.Message, "Error!");
             }
         }
 
