@@ -124,12 +124,21 @@
     <value>Attention</value>
   </data>
   <data name="FileSizeTooLarge" xml:space="preserve">
-    <value>Filesize is too Large (Must less than 15MB)</value>
+    <value>Must less than 15MB :(</value>
   </data>
   <data name="menuReauth" xml:space="preserve">
     <value>Re-Login (Change Account)</value>
   </data>
   <data name="NoFileSelected" xml:space="preserve">
     <value>Please Select file to upload!</value>
+  </data>
+  <data name="InsFileSizeTooLarge" xml:space="preserve">
+    <value>Filesize is too Large!</value>
+  </data>
+  <data name="InsMediaTooLong" xml:space="preserve">
+    <value>Media Duration is too long</value>
+  </data>
+  <data name="MediaTooLong" xml:space="preserve">
+    <value>Must less than 30 sec :(</value>
   </data>
 </root>

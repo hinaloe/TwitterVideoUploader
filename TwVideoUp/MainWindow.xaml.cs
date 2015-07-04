@@ -13,6 +13,9 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using CoreTweet;
 using Microsoft.Win32;
+using Microsoft.WindowsAPICodePack.Dialogs;
+using Microsoft.WindowsAPICodePack.Shell;
+using Microsoft.WindowsAPICodePack.Shell.PropertySystem;
 using TwVideoUp.Core;
 using TwVideoUp.Properties;
 
@@ -118,12 +121,24 @@ namespace TwVideoUp
                 dir = Path.GetDirectoryName(context.Media.LocalPath);
             }catch { dir = null; }
             var filename = fileDialog_Open(dir);
+            if (filename == null)
+            {
+                return;
+            }
             context.Media = new Uri(filename);
             FileInfo fi = new FileInfo(filename);
             long fileSize = fi.Length;
             if(fi.Length > 15*1024*1024)
             {
-                MessageBox.Show(Properties.Resources.FileSizeTooLarge, Properties.Resources.Attention);
+//                MessageBox.Show(Properties.Resources.FileSizeTooLarge, Properties.Resources.Attention);
+                Dialog(Properties.Resources.Attention, Properties.Resources.InsFileSizeTooLarge,
+                    Properties.Resources.FileSizeTooLarge, TaskDialogStandardIcon.Warning).Show();
+            }
+            if (Duration(filename) > 30*1000)
+            {
+//                MessageBox.Show(Properties.Resources.MediaTooLong, Properties.Resources.Attention);
+                Dialog(Properties.Resources.Attention, Properties.Resources.InsMediaTooLong,
+                    Properties.Resources.MediaTooLong, TaskDialogStandardIcon.Warning).Show();
             }
             Console.WriteLine(mediaElement.Height);
             mediaElement.Source = context.Media;
@@ -295,6 +310,42 @@ namespace TwVideoUp
         private void ProgressBar_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
 
+        }
+
+        /// <summary>
+        /// メディアの長さを取得します
+        /// </summary>
+        /// <param name="file">メディアファイルのローカルパス</param>
+        /// <returns>メディアファイルの長さ(ミリ秒)</returns>
+        private double Duration(string file)
+        {
+            ShellFile so = ShellFile.FromFilePath(file);
+            double nanoseconds;
+            double.TryParse(so.Properties.System.Media.Duration.Value.ToString(), out nanoseconds);
+            if (nanoseconds > 0)
+            {
+                return nanoseconds*0.0001;
+            }
+            return 0;
+        }
+
+        /// <summary>
+        /// TaskDialogを生成します
+        /// </summary>
+        /// <param name="caption">タイトルバーに表示されるキャプション</param>
+        /// <param name="instructionText">指示テキスト</param>
+        /// <param name="text">本文</param>
+        /// <param name="icon">アイコン</param>
+        /// <returns>TaskDialog</returns>
+        private TaskDialog Dialog(string caption, string instructionText, string text, TaskDialogStandardIcon icon)
+        {
+            var dialog = new TaskDialog();
+            dialog.Caption = caption;
+            dialog.InstructionText = instructionText;
+            dialog.Text = text;
+            dialog.Icon = icon;
+            dialog.StandardButtons = TaskDialogStandardButtons.Ok;
+            return dialog;
         }
     }
 }

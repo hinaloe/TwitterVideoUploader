@@ -79,11 +79,38 @@ namespace TwVideoUp.Properties {
         }
         
         /// <summary>
-        ///   Filesize is too Large (Must less than 15MB) に類似しているローカライズされた文字列を検索します。
+        ///   Must less than 15MB :( に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string FileSizeTooLarge {
             get {
                 return ResourceManager.GetString("FileSizeTooLarge", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Filesize is too Large! に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string InsFileSizeTooLarge {
+            get {
+                return ResourceManager.GetString("InsFileSizeTooLarge", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Media Duration is too long に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string InsMediaTooLong {
+            get {
+                return ResourceManager.GetString("InsMediaTooLong", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Must less than 30 sec :( に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string MediaTooLong {
+            get {
+                return ResourceManager.GetString("MediaTooLong", resourceCulture);
             }
         }
         
