@@ -299,6 +299,7 @@ namespace TwVideoUp
                 StatusWM dc = DataContext as StatusWM;
                 dc.Media = null;
                 dc.Status = "";
+                StatusArea.Text = "";
 
             }
             PGbar.IsIndeterminate = false;
