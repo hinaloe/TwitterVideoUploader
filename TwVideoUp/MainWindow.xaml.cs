@@ -1,4 +1,11 @@
-﻿using CoreTweet;
+﻿// TwitterVideoUploader
+//
+// Copyright (c) 2015 hinaloe
+//
+// This software is released under the MIT License.
+// http://opensource.org/licenses/mit-license.php
+//
+using CoreTweet;
 using System;
 using System.Collections.Generic;
 using System.IO;

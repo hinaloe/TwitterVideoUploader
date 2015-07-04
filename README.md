@@ -16,3 +16,6 @@ Windows 7,8
 - [ ] Drag&Drop file select
 - [ ] 多言語化対応の統一
 
+## License
+
+This software is licensed under the MIT License.

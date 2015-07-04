@@ -1,4 +1,11 @@
-﻿using System.Diagnostics;
+﻿// TwitterVideoUploader
+//
+// Copyright (c) 2015 hinaloe
+//
+// This software is released under the MIT License.
+// http://opensource.org/licenses/mit-license.php
+//
+using System.Diagnostics;
 using System.Reflection;
 using System.Windows;
 
