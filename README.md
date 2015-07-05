@@ -1,4 +1,5 @@
 ﻿# Twitter Video Uploader for Windows
+[![Build status](https://ci.appveyor.com/api/projects/status/w1h37q3wt7dw08jt?svg=true)](https://ci.appveyor.com/project/hinaloe/twittervideouploader)
 Upload short(max 30 seccond) movie to Twitter from Your Win PC!
 
 ![ScreenShot](http://puu.sh/iMHAN/c15dd16f97.png)
