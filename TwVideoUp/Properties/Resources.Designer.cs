@@ -79,6 +79,24 @@ namespace TwVideoUp.Properties {
         }
         
         /// <summary>
+        ///   BitRate に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string columnBitrate {
+            get {
+                return ResourceManager.GetString("columnBitrate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   URL に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string columnUrl {
+            get {
+                return ResourceManager.GetString("columnUrl", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Must less than 15MB :( に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string FileSizeTooLarge {
@@ -111,6 +129,15 @@ namespace TwVideoUp.Properties {
         public static string MediaTooLong {
             get {
                 return ResourceManager.GetString("MediaTooLong", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Check URL After Send Tweet に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string menuCheck {
+            get {
+                return ResourceManager.GetString("menuCheck", resourceCulture);
             }
         }
         

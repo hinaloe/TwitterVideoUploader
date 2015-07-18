@@ -9,7 +9,7 @@
     <Grid>
         <MediaElement x:Name="mediaElement" Margin="10,10,10,134"  Source="{Binding Media}" LoadedBehavior="Manual" SourceUpdated="mediaElement_SourceUpdated" UnloadedBehavior="Pause" />
         <ProgressBar x:Name="PGbar" HorizontalAlignment="Right" Height="10" Margin="0,0,10,10" VerticalAlignment="Bottom" Width="79" Value="{Binding Fin}" ValueChanged="ProgressBar_ValueChanged"/>
-        <TextBox x:Name="StatusArea" HorizontalAlignment="Left" Height="56" Margin="10,0,0,73" TextWrapping="Wrap" VerticalAlignment="Bottom" Width="392" ToolTip="Tweet text" Text="{Binding Status}"/>
+        <TextBox x:Name="StatusArea" HorizontalAlignment="Left" Height="56" Margin="10,0,0,73" TextWrapping="Wrap" VerticalAlignment="Bottom" Width="392" ToolTip="Tweet text" Text="{Binding Status}" AcceptsReturn="True"/>
         <Button x:Name="pickerCaller" Content="Select" HorizontalAlignment="Left" Height="25" Margin="10,0,0,43" VerticalAlignment="Bottom" Width="60" Click="pickerCaller_Click" />
         <Button x:Name="SendTweetButton" Content="Tweet" HorizontalAlignment="Left" VerticalAlignment="Bottom" Width="59" Margin="343,0,0,43" Height="25" Click="SendTweetButton_Click"/>
         <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="28" Margin="10,0,0,9" VerticalAlignment="Bottom" Width="228">

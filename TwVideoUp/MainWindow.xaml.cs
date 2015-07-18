@@ -11,11 +11,11 @@ using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
+using System.Windows.Input;
 using CoreTweet;
 using Microsoft.Win32;
 using Microsoft.WindowsAPICodePack.Dialogs;
 using Microsoft.WindowsAPICodePack.Shell;
-using Microsoft.WindowsAPICodePack.Shell.PropertySystem;
 using TwVideoUp.Core;
 using TwVideoUp.Properties;
 
@@ -35,7 +35,8 @@ namespace TwVideoUp
             var status = new StatusWM
             {
                 Status = "",
-                Media = null
+                Media = null,
+                Check = false
             };
             DataContext = status;
 
@@ -52,6 +53,8 @@ namespace TwVideoUp
                 }
             }
 
+            StatusArea.KeyDown += StatusAreaOnKeyDown;
+
             ContextMenuGen();
 
             tokens = Tokens.Create(Twitter.CK, Twitter.CS, 
@@ -63,6 +66,14 @@ namespace TwVideoUp
 
         }
 
+        private void StatusAreaOnKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter && Keyboard.Modifiers.HasFlag(ModifierKeys.Control))
+            {
+                SendTweet();
+            }
+        }
+
         public Tokens tokens;
 
         /// <summary>
@@ -70,7 +81,19 @@ namespace TwVideoUp
         /// </summary>
         private void ContextMenuGen()
         {
+
+            StatusWM context = DataContext as StatusWM;
+
             ContextMenu menu = new ContextMenu();
+            // Check URL
+            MenuItem menuItemCheckable = new MenuItem()
+            {
+                IsCheckable = true,
+                Header = Properties.Resources.menuCheck
+            };
+            menuItemCheckable.SetBinding(MenuItem.IsCheckedProperty, new Binding("Check"));
+            menu.Items.Add(menuItemCheckable);
+            
             // Re-Auth
             MenuItem menuItemReAuth = new MenuItem();
             menuItemReAuth.Header = Properties.Resources.menuReauth;
@@ -108,6 +131,8 @@ namespace TwVideoUp
         /// <param name="e"></param>
         private void AboutApp(object sender, RoutedEventArgs e)
         {
+//            var context = DataContext as StatusWM;
+//            MessageBox.Show(context.Check.ToString());
             var w = new AboutApp();
             w.ShowDialog();
         }
@@ -117,9 +142,21 @@ namespace TwVideoUp
         {
             string dir;
             var context = DataContext as StatusWM;
-            try {
-                dir = Path.GetDirectoryName(context.Media.LocalPath);
-            }catch { dir = null; }
+            if (context.Media != null)
+            {
+                try
+                {
+                    dir = Path.GetDirectoryName(context.Media.LocalPath);
+                }
+                catch
+                {
+                    dir = null;
+                }
+            }
+            else
+            {
+                dir = null;
+            }
             var filename = fileDialog_Open(dir);
             if (filename == null)
             {
@@ -262,7 +299,9 @@ namespace TwVideoUp
                     media_ids => result.MediaId
                     );
                 AfterSendTweet(SUCCESS);
-                
+                // めんどくさいのでツイート処理は別添え
+                SucceedUpload(s);
+
             }
             catch(Exception e)
             {
@@ -272,11 +311,25 @@ namespace TwVideoUp
             }
         }
 
+        private void SucceedUpload(Status status)
+        {
+            StatusWM context = DataContext as StatusWM;
+            if (context.Check == true)
+            {
+                EntitiesInfoWindow.ShowVideoInfo(status.ExtendedEntities);
+            }
+        }
+
         private void SendTweetButton_Click(object sender, RoutedEventArgs e)
+        {
+            SendTweet();
+        }
+
+        private void SendTweet()
         {
             var dc = DataContext as StatusWM;
             updateWithMedia(dc.Status, dc.Media);
-            
+
         }
 
         /// <summary>

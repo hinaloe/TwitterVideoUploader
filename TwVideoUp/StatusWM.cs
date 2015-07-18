@@ -14,5 +14,6 @@ namespace TwVideoUp
         public string Status { get; set; }
         public Uri Media { get; set; }
         public int Fin { get; set; }
+        public Boolean Check { get; set; }
     }
 }

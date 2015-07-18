@@ -141,4 +141,13 @@
   <data name="MediaTooLong" xml:space="preserve">
     <value>Must less than 30 sec :(</value>
   </data>
+  <data name="menuCheck" xml:space="preserve">
+    <value>Check URL After Send Tweet</value>
+  </data>
+  <data name="columnBitrate" xml:space="preserve">
+    <value>BitRate</value>
+  </data>
+  <data name="columnUrl" xml:space="preserve">
+    <value>URL</value>
+  </data>
 </root>

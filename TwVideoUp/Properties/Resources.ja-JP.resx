@@ -141,4 +141,7 @@
   <data name="NoFileSelected" xml:space="preserve">
     <value>アップロードするファイルを選択してください。</value>
   </data>
+  <data name="columnBitrate" xml:space="preserve">
+    <value>ビットレート</value>
+  </data>
 </root>
