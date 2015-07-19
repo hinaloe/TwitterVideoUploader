@@ -169,11 +169,38 @@ namespace TwVideoUp.Properties {
         }
         
         /// <summary>
+        ///   Auth に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string UiButtonAuth {
+            get {
+                return ResourceManager.GetString("UiButtonAuth", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Select に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string UiButtonSelect {
             get {
                 return ResourceManager.GetString("UiButtonSelect", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Please Log in to Twitter with following URL. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string UiTextAuthNav {
+            get {
+                return ResourceManager.GetString("UiTextAuthNav", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Please enter your PIN below. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string UiTextPinNav {
+            get {
+                return ResourceManager.GetString("UiTextPinNav", resourceCulture);
             }
         }
     }

@@ -156,4 +156,13 @@
   <data name="TitleAuth" xml:space="preserve">
     <value>Auth</value>
   </data>
+  <data name="UiButtonAuth" xml:space="preserve">
+    <value>Auth</value>
+  </data>
+  <data name="UiTextAuthNav" xml:space="preserve">
+    <value>Please Log in to Twitter with following URL.</value>
+  </data>
+  <data name="UiTextPinNav" xml:space="preserve">
+    <value>Please enter your PIN below.</value>
+  </data>
 </root>

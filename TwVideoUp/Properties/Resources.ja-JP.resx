@@ -153,4 +153,13 @@
   <data name="TitleAuth" xml:space="preserve">
     <value>認証</value>
   </data>
+  <data name="UiButtonAuth" xml:space="preserve">
+    <value>認証</value>
+  </data>
+  <data name="UiTextAuthNav" xml:space="preserve">
+    <value>下記のURLにアクセスしてログインしてください。</value>
+  </data>
+  <data name="UiTextPinNav" xml:space="preserve">
+    <value>PINを以下に入力してください。</value>
+  </data>
 </root>

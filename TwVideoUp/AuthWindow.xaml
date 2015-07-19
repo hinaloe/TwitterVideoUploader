@@ -10,15 +10,19 @@
         
         >
     <Grid>
-        <TextBlock x:Name="textBlock" HorizontalAlignment="Left" Margin="5,54,0,0" TextWrapping="Wrap" Text="1. 下記のURLにアクセスしてログインしてください。" VerticalAlignment="Top" Width="277"/>
+        <TextBlock x:Name="textBlock" HorizontalAlignment="Left" Margin="5,54,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="277">
+            1. <Run Text="{Binding UiTextAuthNav, Mode=OneWay, Source={StaticResource Resources}}"/>
+        </TextBlock>
         <TextBlock x:Name="AuthLink" HorizontalAlignment="Left" Margin="10,74,0,0" TextWrapping="Wrap"  VerticalAlignment="Top"  >
             <Hyperlink NavigateUri="{Binding AuthUrl}" RequestNavigate="Hyperlink_RequestNavigate" Name="AuthLinklink" >
                 <Run Name="AuthLinkText" />
             </Hyperlink>
         </TextBlock>
-        <TextBlock x:Name="textBlock1" HorizontalAlignment="Left" Margin="10,142,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="14" Width="282"><Run Text="2. PINを以下に入力してください"/><LineBreak/><Run/></TextBlock>
+        <TextBlock x:Name="textBlock1" HorizontalAlignment="Left" Margin="10,142,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="14" Width="282">
+            2. <Run Text="{Binding UiTextPinNav, Mode=OneWay ,Source={StaticResource Resources}}"/><LineBreak/><Run/>
+        </TextBlock>
         <TextBox x:Name="pin" HorizontalAlignment="Left" Height="36" Margin="56,164,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="157" FontSize="24" IsEnabled="False"/>
-        <Button x:Name="authButton" Content="Auth" HorizontalAlignment="Left" Height="36" Margin="218,164,0,0" VerticalAlignment="Top" Width="64" FontSize="20" Click="authButton_Click" IsEnabled="False"/>
+        <Button x:Name="authButton" Content="{Binding UiButtonAuth, Mode=OneWay, Source={StaticResource Resources}}" HorizontalAlignment="Left" Height="36" Margin="218,164,0,0" VerticalAlignment="Top" Width="64" FontSize="20" Click="authButton_Click" IsEnabled="False"/>
 
     </Grid>
 </Window>
