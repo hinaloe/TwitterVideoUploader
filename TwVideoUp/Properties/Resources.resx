@@ -150,4 +150,10 @@
   <data name="columnUrl" xml:space="preserve">
     <value>URL</value>
   </data>
+  <data name="UiButtonSelect" xml:space="preserve">
+    <value>Select</value>
+  </data>
+  <data name="TitleAuth" xml:space="preserve">
+    <value>Auth</value>
+  </data>
 </root>

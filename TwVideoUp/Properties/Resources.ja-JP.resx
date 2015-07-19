@@ -144,4 +144,13 @@
   <data name="columnBitrate" xml:space="preserve">
     <value>ビットレート</value>
   </data>
+  <data name="menuCheck" xml:space="preserve">
+    <value>アップロード後に動画URLを確認する</value>
+  </data>
+  <data name="UiButtonSelect" xml:space="preserve">
+    <value>選択…</value>
+  </data>
+  <data name="TitleAuth" xml:space="preserve">
+    <value>認証</value>
+  </data>
 </root>

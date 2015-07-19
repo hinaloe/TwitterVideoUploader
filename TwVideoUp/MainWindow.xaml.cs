@@ -81,9 +81,6 @@ namespace TwVideoUp
         /// </summary>
         private void ContextMenuGen()
         {
-
-            StatusWM context = DataContext as StatusWM;
-
             ContextMenu menu = new ContextMenu();
             // Check URL
             MenuItem menuItemCheckable = new MenuItem()
@@ -142,7 +139,7 @@ namespace TwVideoUp
         {
             string dir;
             var context = DataContext as StatusWM;
-            if (context.Media != null)
+            if (context?.Media != null)
             {
                 try
                 {
@@ -165,7 +162,7 @@ namespace TwVideoUp
             context.Media = new Uri(filename);
             FileInfo fi = new FileInfo(filename);
             long fileSize = fi.Length;
-            if(fi.Length > 15*1024*1024)
+            if(fileSize > 15*1024*1024)
             {
 //                MessageBox.Show(Properties.Resources.FileSizeTooLarge, Properties.Resources.Attention);
                 Dialog(Properties.Resources.Attention, Properties.Resources.InsFileSizeTooLarge,
@@ -189,10 +186,12 @@ namespace TwVideoUp
         /// <returns>選択したファイルのローカルパス(nullable)</returns>
         private string fileDialog_Open(string initaldir = null)
         {
-            var fileDialog = new OpenFileDialog();
-            fileDialog.DefaultExt = ".mp4";
-            fileDialog.Filter = "MP4 video (*.mp4)|*.mp4";
-            fileDialog.InitialDirectory = initaldir;
+            var fileDialog = new OpenFileDialog
+            {
+                DefaultExt = ".mp4",
+                Filter = "MP4 video (*.mp4)|*.mp4",
+                InitialDirectory = initaldir
+            };
 
             bool? res = fileDialog.ShowDialog();
             if(res == true)
@@ -246,12 +245,13 @@ namespace TwVideoUp
         /// <param name="uri"></param>
         private void openMediaPreviewWindow (Uri uri)
         {
-            MediaElement media = new MediaElement();
-            media.Source = uri;
-            Window c = new Window();
-            c.Content = media;
-            c.Title = "Preview";
-            c.WindowStyle = WindowStyle.ToolWindow;
+            MediaElement media = new MediaElement {Source = uri};
+            Window c = new Window
+            {
+                Content = media,
+                Title = "Preview",
+                WindowStyle = WindowStyle.ToolWindow
+            };
             c.Show();
 
         }
@@ -314,7 +314,7 @@ namespace TwVideoUp
         private void SucceedUpload(Status status)
         {
             StatusWM context = DataContext as StatusWM;
-            if (context.Check == true)
+            if (context?.Check == true)
             {
                 EntitiesInfoWindow.ShowVideoInfo(status.ExtendedEntities);
             }
@@ -392,12 +392,14 @@ namespace TwVideoUp
         /// <returns>TaskDialog</returns>
         private TaskDialog Dialog(string caption, string instructionText, string text, TaskDialogStandardIcon icon)
         {
-            var dialog = new TaskDialog();
-            dialog.Caption = caption;
-            dialog.InstructionText = instructionText;
-            dialog.Text = text;
-            dialog.Icon = icon;
-            dialog.StandardButtons = TaskDialogStandardButtons.Ok;
+            var dialog = new TaskDialog
+            {
+                Caption = caption,
+                InstructionText = instructionText,
+                Text = text,
+                Icon = icon,
+                StandardButtons = TaskDialogStandardButtons.Ok
+            };
             return dialog;
         }
     }

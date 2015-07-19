@@ -158,5 +158,23 @@ namespace TwVideoUp.Properties {
                 return ResourceManager.GetString("NoFileSelected", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Auth に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string TitleAuth {
+            get {
+                return ResourceManager.GetString("TitleAuth", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Select に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string UiButtonSelect {
+            get {
+                return ResourceManager.GetString("UiButtonSelect", resourceCulture);
+            }
+        }
     }
 }

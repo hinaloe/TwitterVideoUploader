@@ -5,15 +5,20 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TwVideoUp"
         mc:Ignorable="d"
-        Title="AuthWindow" Height="300" Width="300"
+        Title="Auth" Height="300" Width="300"
         Loaded="Window_Loaded"
+        
         >
     <Grid>
         <TextBlock x:Name="textBlock" HorizontalAlignment="Left" Margin="5,54,0,0" TextWrapping="Wrap" Text="1. 下記のURLにアクセスしてログインしてください。" VerticalAlignment="Top" Width="277"/>
-        <TextBlock x:Name="AuthLink" HorizontalAlignment="Left" Margin="10,74,0,0" TextWrapping="Wrap"  VerticalAlignment="Top"  ><Hyperlink NavigateUri="{Binding AuthUrl}" RequestNavigate="Hyperlink_RequestNavigate"><Run Text="{Binding AuthUrl}" /></Hyperlink></TextBlock>
+        <TextBlock x:Name="AuthLink" HorizontalAlignment="Left" Margin="10,74,0,0" TextWrapping="Wrap"  VerticalAlignment="Top"  >
+            <Hyperlink NavigateUri="{Binding AuthUrl}" RequestNavigate="Hyperlink_RequestNavigate" Name="AuthLinklink" >
+                <Run Name="AuthLinkText" />
+            </Hyperlink>
+        </TextBlock>
         <TextBlock x:Name="textBlock1" HorizontalAlignment="Left" Margin="10,142,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="14" Width="282"><Run Text="2. PINを以下に入力してください"/><LineBreak/><Run/></TextBlock>
         <TextBox x:Name="pin" HorizontalAlignment="Left" Height="36" Margin="56,164,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="157" FontSize="24" IsEnabled="False"/>
-        <Button x:Name="authButton" Content="Auth" HorizontalAlignment="Left" Height="36" Margin="218,164,0,0" VerticalAlignment="Top" Width="64" FontSize="20" Click="authButton_Click"/>
+        <Button x:Name="authButton" Content="Auth" HorizontalAlignment="Left" Height="36" Margin="218,164,0,0" VerticalAlignment="Top" Width="64" FontSize="20" Click="authButton_Click" IsEnabled="False"/>
 
     </Grid>
 </Window>
