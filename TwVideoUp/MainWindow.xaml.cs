@@ -12,6 +12,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
+using System.Windows.Shell;
 using CoreTweet;
 using Microsoft.Win32;
 using Microsoft.WindowsAPICodePack.Dialogs;
@@ -53,6 +54,7 @@ namespace TwVideoUp
                 }
             }
 
+            TaskbarItemInfo = new TaskbarItemInfo();
             StatusArea.KeyDown += StatusAreaOnKeyDown;
 
             ContextMenuGen();
@@ -339,6 +341,7 @@ namespace TwVideoUp
         {
             SendTweetButton.IsEnabled = false;
             PGbar.IsIndeterminate = true;
+            TaskbarItemInfo.ProgressState=TaskbarItemProgressState.Indeterminate;
         }
 
         /// <summary>
@@ -358,6 +361,7 @@ namespace TwVideoUp
             }
             PGbar.IsIndeterminate = false;
             SendTweetButton.IsEnabled = true;
+            TaskbarItemInfo.ProgressState=TaskbarItemProgressState.None;
         }
 
         private void ProgressBar_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
