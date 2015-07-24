@@ -3,6 +3,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="clr-namespace:TwVideoUp"
              xmlns:properties="clr-namespace:TwVideoUp.Properties"
+             Startup="App_OnStartup"
+             Exit="App_OnExit"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
         <properties:Resources x:Key="Resources" />
