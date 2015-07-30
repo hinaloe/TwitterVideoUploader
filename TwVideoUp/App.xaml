@@ -5,7 +5,7 @@
              xmlns:properties="clr-namespace:TwVideoUp.Properties"
              Startup="App_OnStartup"
              Exit="App_OnExit"
-             StartupUri="MainWindow.xaml">
+             >
     <Application.Resources>
         <properties:Resources x:Key="Resources" />
     </Application.Resources>

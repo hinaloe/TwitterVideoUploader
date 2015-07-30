@@ -6,11 +6,7 @@
 // http://opensource.org/licenses/mit-license.php
 //
 using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Linq;
-using System.Threading.Tasks;
+using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Threading;
@@ -31,6 +27,19 @@ namespace TwVideoUp
         {
             DispatcherUnhandledException += App_DisatacherUnhandledException;
             AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
+
+
+            var window = new MainWindow();
+
+            if (e.Args.Length != 0)
+            {
+                if (e.Args[0].EndsWith(".mp4") && File.Exists(@e.Args[0]))
+                {
+                    if (window.DataContext != null) ((StatusWM) window.DataContext).Media = new Uri(e.Args[0]);
+                }
+            }
+
+            window.Show();
         }
 
         /// <summary>
