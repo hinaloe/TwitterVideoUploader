@@ -14,6 +14,7 @@
             Detail TVU: <Hyperlink RequestNavigate="Hyperlink_Nav" NavigateUri="https://blog.hinaloe.net/twvideoup/">https://blog.hinaloe.net/twvideoup/</Hyperlink><LineBreak/>
             Powered by <Hyperlink RequestNavigate="Hyperlink_Nav" NavigateUri="http://coretweet.github.io/">CoreTweet</Hyperlink>
         </TextBlock>
+        <Image x:Name="image" HorizontalAlignment="Left" Height="46" Margin="10,42,0,0" VerticalAlignment="Top" Width="46" Source="Resources/appicon.ico"/>
 
     </Grid>
 </Window>
