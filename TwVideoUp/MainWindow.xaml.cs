@@ -40,7 +40,7 @@ namespace TwVideoUp
                 Check = false
             };
             DataContext = status;
-
+            e:
             if(Settings.Default.token=="")
             {
                 try
@@ -58,14 +58,27 @@ namespace TwVideoUp
             StatusArea.KeyDown += StatusAreaOnKeyDown;
 
             ContextMenuGen();
-
+            //この実装では認証画面を閉じるとメインウインドウが開いてしまうのでこんなかんじに
+            if (Settings.Default.token=="")
+            {
+                MessageBoxResult result = System.Windows.MessageBox.Show("認証が完了していません。再度試行しますか？", "警告",
+                MessageBoxButton.YesNo,
+                MessageBoxImage.Warning);
+                if (result == MessageBoxResult.Yes)
+                {
+                    //goto使わないほうがいいかも
+                    goto e;
+                }
+                else
+                {
+                    Environment.Exit(0);
+                }
+            }
             tokens = Tokens.Create(Twitter.CK, Twitter.CS, 
                 Settings.Default.token, 
                 Settings.Default.secret
                 );
-
-
-
+            
         }
 
         private void StatusAreaOnKeyDown(object sender, KeyEventArgs e)
@@ -405,6 +418,18 @@ namespace TwVideoUp
                 StandardButtons = TaskDialogStandardButtons.Ok
             };
             return dialog;
+        }
+
+        private void button_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBoxResult result = System.Windows.MessageBox.Show("設定を消去しますか？(アカウントの認証情報がリセットされます)", "警告",
+            MessageBoxButton.YesNo,
+            MessageBoxImage.Warning);
+            if (result == MessageBoxResult.Yes)
+            {
+                Settings.Default.Reset();
+                Environment.Exit(0);
+            }
         }
     }
 }
