@@ -1,14 +1,14 @@
 ﻿<Window x:Class="TwVideoUp.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Twitter Video Uploader" Height="350" Width="420"
+        Title="Twitter Video Uploader" Height="350" Width="420" ResizeMode="NoResize"
         
         >
     <Grid>
         <MediaElement x:Name="mediaElement" Margin="10,10,10,134"  Source="{Binding Media}" LoadedBehavior="Manual" SourceUpdated="mediaElement_SourceUpdated" UnloadedBehavior="Pause" />
         <ProgressBar x:Name="PGbar" HorizontalAlignment="Right" Height="10" Margin="0,0,10,10" VerticalAlignment="Bottom" Width="79" Value="{Binding Fin}" ValueChanged="ProgressBar_ValueChanged"/>
         <TextBox x:Name="StatusArea" HorizontalAlignment="Left" Height="56" Margin="10,0,0,73" TextWrapping="Wrap" VerticalAlignment="Bottom" Width="392" ToolTip="Tweet text" Text="{Binding Status, UpdateSourceTrigger = PropertyChanged}" AcceptsReturn="True"/>
-        <Button x:Name="pickerCaller" Content="{Binding UiButtonSelect, Mode=OneWay, Source={StaticResource Resources}}" HorizontalAlignment="Left" Height="25" Margin="10,0,0,43" VerticalAlignment="Bottom" Width="60" Click="pickerCaller_Click" />
+        <Button x:Name="pickerCaller" Content="{Binding UiButtonSelect, Mode=OneWay, Source={StaticResource Resources}}" HorizontalAlignment="Left" Height="25" Margin="20,0,0,43" VerticalAlignment="Bottom" Width="60" Click="pickerCaller_Click" />
         <Button x:Name="SendTweetButton" Content="Tweet" HorizontalAlignment="Left" VerticalAlignment="Bottom" Width="59" Margin="343,0,0,43" Height="25" Click="SendTweetButton_Click"/>
         <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="28" Margin="10,0,0,9" VerticalAlignment="Bottom" Width="228">
             <StackPanel Orientation="Horizontal" VerticalAlignment="Bottom" HorizontalAlignment="Left">
@@ -18,7 +18,8 @@
                 <Button Click="m_PlayButton_Click" FontFamily="Webdings" ToolTip="Play">4</Button>
                 <Button Click="m_OpenWindow_Click" FontFamily="Webdings" ToolTip="Open Preview Window">2</Button>
             </StackPanel>
-        </Border>            
+        </Border>
+        <Button x:Name="reset" Content="Reset" HorizontalAlignment="Left" VerticalAlignment="Bottom" Width="59" Margin="100,0,0,43" Height="25" Click="button_Click"/>
 
 
     </Grid>
