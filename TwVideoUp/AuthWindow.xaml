@@ -5,8 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TwVideoUp"
         mc:Ignorable="d"
-        Title="Auth" Height="300" Width="300"
-        Loaded="Window_Loaded"
+        Title="Auth" Height="300" Width="316.807"
+        Loaded="Window_Loaded" ResizeMode="NoResize"
         
         >
     <Grid>
