@@ -54,7 +54,7 @@ namespace TwVideoUp
             }
             var theme = new ResourceDictionary()
             {
-                Source = new Uri(@"/PresentationFramework.AeroLite;component/themes/aerolite.normalcolor.xaml", UriKind.Relative)
+                Source = new Uri(@"/PresentationFramework.Aero2;component/themes/aero2.normalcolor.xaml", UriKind.Relative)
             };
             Resources.MergedDictionaries.Add(theme);
         }
