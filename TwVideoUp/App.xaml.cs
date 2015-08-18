@@ -88,9 +88,17 @@ namespace TwVideoUp
                         Text = "予期せぬエラーが発生しました。以下のStackTraceをIssueとして提出いただけると嬉しいです。(ユーザー名などが含まれている場合は伏せていただいて構いません。)",
                         TextWrapping = TextWrapping.Wrap
                     },
-                    new TextBox() {Text = ex.ToString()},
+                    new TextBox()
+                    {
+                        Text = ex.ToString(),
+                        IsReadOnly = true,
+                        TextWrapping = TextWrapping.Wrap,
+                        Margin = new Thickness(10),
+                        MaxHeight = 380,
+                        VerticalScrollBarVisibility = ScrollBarVisibility.Auto
+                    },
                     b
-                }
+                },
             };
             b.Click += (sender, args) => Clipboard.SetText(ex.ToString());
             b.Content = new TextBlock() {Text = "Copy to Clipboard."};
