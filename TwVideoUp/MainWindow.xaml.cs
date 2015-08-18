@@ -7,6 +7,7 @@
 //
 
 using System;
+using System.Diagnostics;
 using System.IO;
 using System.Windows;
 using System.Windows.Controls;
@@ -41,18 +42,8 @@ namespace TwVideoUp
             };
             DataContext = status;
 
-            if(Settings.Default.token=="")
-            {
-                try
-                {
-                    AuthWindow w = new AuthWindow();
-                    w.ShowDialog();
-                }
-                catch (Exception e)
-                {
-                    MessageBox.Show(e.Message, "Error");
-                }
-            }
+            if (Settings.Default.token == "")
+                AuthStart();
 
             TaskbarItemInfo = new TaskbarItemInfo();
             StatusArea.KeyDown += StatusAreaOnKeyDown;
@@ -66,6 +57,37 @@ namespace TwVideoUp
 
 
 
+        }
+
+        private static void AuthStart()
+        {
+            try
+            {
+                AuthWindow w = new AuthWindow();
+                w.ShowDialog();
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.Message, "Error");
+            }
+            if (Settings.Default.token == "")
+            {
+#if DEBUG
+                MessageBox.Show("認証が完了していません");           
+#else
+                MessageBoxResult result = MessageBox.Show(Properties.Resources.MsgUnAuth, Properties.Resources.Attention,
+                    MessageBoxButton.YesNo, MessageBoxImage.Warning);
+                if (result == MessageBoxResult.Yes)
+                {
+                    AuthStart();
+                }
+                else
+                {
+                    MessageBox.Show(Properties.Resources.MsgExit);
+                    Environment.Exit(2);
+                }
+#endif
+            }
         }
 
         private void StatusAreaOnKeyDown(object sender, KeyEventArgs e)
@@ -114,8 +136,7 @@ namespace TwVideoUp
         /// <param name="e"></param>
         private void ReAuth(object sender, RoutedEventArgs e)
         {
-            AuthWindow w = new AuthWindow();
-            w.ShowDialog();
+            AuthStart();
             tokens = Tokens.Create(Twitter.CK, Twitter.CS,
                 Settings.Default.token,
                 Settings.Default.secret

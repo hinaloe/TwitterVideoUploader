@@ -165,4 +165,10 @@
   <data name="UiTextPinNav" xml:space="preserve">
     <value>Please enter your PIN below.</value>
   </data>
+  <data name="MsgExit" xml:space="preserve">
+    <value>Exit.</value>
+  </data>
+  <data name="MsgUnAuth" xml:space="preserve">
+    <value>Authentication is not completed. Do you want to retry? (And exit by clicking on the No)</value>
+  </data>
 </root>

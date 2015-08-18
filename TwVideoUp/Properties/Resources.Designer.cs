@@ -151,6 +151,24 @@ namespace TwVideoUp.Properties {
         }
         
         /// <summary>
+        ///   Exit. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string MsgExit {
+            get {
+                return ResourceManager.GetString("MsgExit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Authentication is not completed. Do you want to retry? (And exit by clicking on the No) に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string MsgUnAuth {
+            get {
+                return ResourceManager.GetString("MsgUnAuth", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Please Select file to upload! に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string NoFileSelected {
