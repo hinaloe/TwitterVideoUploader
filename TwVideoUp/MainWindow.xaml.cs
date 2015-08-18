@@ -33,7 +33,7 @@ namespace TwVideoUp
         public MainWindow()
         {
             InitializeComponent();
-            var status = new StatusWM
+             var status = new StatusWM
             {
                 Status = "",
                 Media = null,
