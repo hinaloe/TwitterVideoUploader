@@ -5,12 +5,12 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TwVideoUp"
         mc:Ignorable="d"
-        Title="Auth" Height="300" Width="316.807"
+        Title="Auth" Height="300" Width="320"
         Loaded="Window_Loaded" ResizeMode="NoResize"
         
         >
     <Grid>
-        <TextBlock x:Name="textBlock" HorizontalAlignment="Left" Margin="5,54,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="277">
+        <TextBlock x:Name="textBlock" HorizontalAlignment="Left" Margin="5,54,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="299">
             1. <Run Text="{Binding UiTextAuthNav, Mode=OneWay, Source={StaticResource Resources}}"/>
         </TextBlock>
         <TextBlock x:Name="AuthLink" HorizontalAlignment="Left" Margin="10,74,0,0" TextWrapping="Wrap"  VerticalAlignment="Top"  >
