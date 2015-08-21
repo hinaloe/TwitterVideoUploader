@@ -34,7 +34,7 @@ namespace TwVideoUp
 
         private OAuth.OAuthSession session;
         private Tokens tokens;
-
+        public string code;
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
@@ -55,7 +55,7 @@ namespace TwVideoUp
             Console.WriteLine(bindings.AuthUrl.ToString());
             
             pin.IsEnabled = true;
-            authButton.IsEnabled = true;
+            //authButton.IsEnabled = true;
         }
 
         private class db
@@ -71,7 +71,7 @@ namespace TwVideoUp
         private async void authButton_Click(object sender, RoutedEventArgs e)
         {
             var bindings = DataContext as db;
-            var code = pin.Text;
+            code = pin.Text;
             try
             {
                 tokens = await session.GetTokensAsync(code);
@@ -108,5 +108,33 @@ namespace TwVideoUp
             e.Handled = true;
         }
 
+        private void pin_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
+        {
+            //ボタン有効化
+            code = pin.Text;
+            if (code.Length == 7)
+            {
+                try
+                {
+                    int n = int.Parse(code);
+                    if (authButton.IsEnabled == false)
+                    {
+                        authButton.IsEnabled = true;
+                    }
+                }
+                catch (System.FormatException)
+                {
+                    return;
+                }
+
+            }
+            else
+            {
+                if (authButton.IsEnabled == true)
+                {
+                    authButton.IsEnabled = false;
+                }
+            }
+        }
     }
 }
