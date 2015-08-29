@@ -11,7 +11,7 @@ Upload short(max 30 seccond) movie to Twitter from Your Win PC!
 - CoreTweet 0.5.2+
 
 ## Tested on
-Windows 7,8
+Windows 7 or later
 
 ## TODO
 
