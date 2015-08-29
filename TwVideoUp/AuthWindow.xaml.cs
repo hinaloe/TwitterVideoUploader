@@ -114,21 +114,13 @@ namespace TwVideoUp
             //ボタン有効化
             code = pin.Text;
             int n;
-            if (code.Length == 7 && int.TryParse(code, out n))
+            if (code.Length == 7 && int.TryParse(code, out n) && authButton.IsEnabled == false)
             {
-
-                if (authButton.IsEnabled == false)
-                {
                     authButton.IsEnabled = true;
-                }
             }
-            else
+            else if (authButton.IsEnabled == true)
             {
-                if (authButton.IsEnabled == true)
-                {
                     authButton.IsEnabled = false;
-
-                }
             }
         }
 
