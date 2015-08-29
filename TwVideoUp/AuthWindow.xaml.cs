@@ -15,6 +15,7 @@ using System.Windows.Navigation;
 using CoreTweet;
 using TwVideoUp.Core;
 using TwVideoUp.Properties;
+using System.Windows.Input;
 
 namespace TwVideoUp
 {
@@ -28,7 +29,7 @@ namespace TwVideoUp
             InitializeComponent();
 
             DataContext = new db();
-//            InitAuth();
+            //            InitAuth();
 
         }
 
@@ -38,7 +39,7 @@ namespace TwVideoUp
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            Title = String.Format("{0} - {1}",Properties.Resources.TitleAuth,Assembly.GetExecutingAssembly().GetName().Name);
+            Title = String.Format("{0} - {1}", Properties.Resources.TitleAuth, Assembly.GetExecutingAssembly().GetName().Name);
             InitAuth();
         }
 
@@ -53,7 +54,7 @@ namespace TwVideoUp
             AuthLinkText.Text = session.AuthorizeUri.ToString();
             AuthLinklink.NavigateUri = session.AuthorizeUri;
             Console.WriteLine(bindings.AuthUrl.ToString());
-            
+
             pin.IsEnabled = true;
             //authButton.IsEnabled = true;
         }
@@ -76,7 +77,7 @@ namespace TwVideoUp
             {
                 tokens = await session.GetTokensAsync(code);
             }
-            catch(TwitterException ex)
+            catch (TwitterException ex)
             {
                 MessageBox.Show("エラーが発生しました、もう一度やり直してください\n" + ex.Message,
                                 "info", MessageBoxButton.OK, MessageBoxImage.Error);
@@ -112,29 +113,31 @@ namespace TwVideoUp
         {
             //ボタン有効化
             code = pin.Text;
-            if (code.Length == 7)
+            int n;
+            if (code.Length == 7 && int.TryParse(code, out n))
             {
-                try
-                {
-                    int n = int.Parse(code);
-                    if (authButton.IsEnabled == false)
-                    {
-                        authButton.IsEnabled = true;
-                    }
-                }
-                catch (System.FormatException)
-                {
-                    return;
-                }
 
+                if (authButton.IsEnabled == false)
+                {
+                    authButton.IsEnabled = true;
+                }
             }
             else
             {
                 if (authButton.IsEnabled == true)
                 {
                     authButton.IsEnabled = false;
+
                 }
             }
         }
+
+        private void enter(object sender, System.Windows.Input.KeyEventArgs e)
+        {
+            if (e.Key == Key.Return)
+            {
+                authButton_Click(sender,e);
+            }
+}
     }
 }
