@@ -25,8 +25,9 @@ Windows 7,8,10
 > - Dimensions should be between 32x32 and 1280x1024  
 > - Aspect ratio should be between 1:3 and 3:1  
 > - Frame rate should be 40fps or less  
-> Audio should be mono or stereo  
-Quote from [Twitter Uploading Media](https://dev.twitter.com/rest/public/uploading-media#videorecs)
+> - Audio should be mono or stereo  
+>
+> Quote from [Twitter Uploading Media](https://dev.twitter.com/rest/public/uploading-media#videorecs)
 
 
 ## License
