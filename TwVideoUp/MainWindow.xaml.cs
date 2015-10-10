@@ -224,10 +224,38 @@ namespace TwVideoUp
             return null;
         }
 
-//        private void mediaElement_MediaOpened(object sender, RoutedEventArgs e)
-//        {
-//            Console.WriteLine(((MediaElement)sender).ActualHeight);
-//        }
+        //        private void mediaElement_MediaOpened(object sender, RoutedEventArgs e)
+        //        {
+        //            Console.WriteLine(((MediaElement)sender).ActualHeight);
+        //        }
+        /// <summary>
+        /// ドロップイベントのハンドラ
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void MainWindow_OnDrop(object sender, DragEventArgs e)
+        {
+            if (e.Data.GetDataPresent(DataFormats.FileDrop))
+            {
+                string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
+
+                if (files[0].EndsWith(".mp4") && File.Exists(@files[0]))
+                {
+                    if (DataContext != null) mediaElement.Source = ((StatusWM)DataContext).Media = new Uri(files[0]);
+                }
+                else
+                {
+                    Dialog("Please drop mp4 video", "Invalid extension", "Only mp4 can upload",
+                        TaskDialogStandardIcon.Error).Show();
+                }
+
+
+            }
+            else
+            {
+                MessageBox.Show("Only mp4 video file can drop");
+            }
+        }
 
         private void m_JumpButton_Click(object sender, RoutedEventArgs e)
         {
@@ -427,5 +455,6 @@ namespace TwVideoUp
             };
             return dialog;
         }
+
     }
 }

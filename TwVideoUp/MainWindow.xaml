@@ -2,10 +2,11 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="Twitter Video Uploader" Height="350" Width="428" MinWidth="400"
+        AllowDrop="True" Drop="MainWindow_OnDrop"
         
         >
     <Grid>
-        <MediaElement x:Name="mediaElement" Margin="10,10,10,134"  Source="{Binding Media}" LoadedBehavior="Manual" SourceUpdated="mediaElement_SourceUpdated" UnloadedBehavior="Pause" />
+        <MediaElement x:Name="mediaElement" Margin="10,10,10,134"  Source="{Binding Media, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" LoadedBehavior="Manual" SourceUpdated="mediaElement_SourceUpdated" UnloadedBehavior="Pause" />
         <ProgressBar x:Name="PGbar" HorizontalAlignment="Right" Height="10" Margin="0,0,10,10" VerticalAlignment="Bottom" Width="79" Value="{Binding Fin}" ValueChanged="ProgressBar_ValueChanged"/>
         <TextBox x:Name="StatusArea" HorizontalAlignment="Left" Height="56" Margin="10,0,0,73" TextWrapping="Wrap" VerticalAlignment="Bottom" Width="392" ToolTip="Tweet text" Text="{Binding Status, UpdateSourceTrigger = PropertyChanged}" AcceptsReturn="True"/>
         <Button x:Name="pickerCaller" Content="{Binding UiButtonSelect, Mode=OneWay, Source={StaticResource Resources}}" HorizontalAlignment="Left" Height="25" Margin="10,0,0,43" VerticalAlignment="Bottom" Width="60" Click="pickerCaller_Click" />
