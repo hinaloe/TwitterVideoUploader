@@ -171,4 +171,7 @@
   <data name="MsgUnAuth" xml:space="preserve">
     <value>Authentication is not completed. Do you want to retry? (And exit by clicking on the No)</value>
   </data>
+  <data name="ErrorPrRetry" xml:space="preserve">
+    <value>An error occurred. Plese retry again.</value>
+  </data>
 </root>

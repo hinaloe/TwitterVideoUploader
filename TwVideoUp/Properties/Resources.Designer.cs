@@ -29,7 +29,7 @@ namespace TwVideoUp.Properties {
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        public Resources() {
+        internal Resources() {
         }
         
         /// <summary>
@@ -93,6 +93,15 @@ namespace TwVideoUp.Properties {
         public static string columnUrl {
             get {
                 return ResourceManager.GetString("columnUrl", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   An error occurred. Plese retry again. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ErrorPrRetry {
+            get {
+                return ResourceManager.GetString("ErrorPrRetry", resourceCulture);
             }
         }
         

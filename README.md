@@ -28,10 +28,6 @@ Windows 7,8,10
 > Audio should be mono or stereo  
 Quote from [Twitter Uploading Media](https://dev.twitter.com/rest/public/uploading-media#videorecs)
 
-## TODO
-
-- [ ] Drag&Drop file select
-- [ ] Multilingualization
 
 ## License
 

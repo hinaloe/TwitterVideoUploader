@@ -175,4 +175,7 @@
   <data name="MsgUnAuth" xml:space="preserve">
     <value>認証が完了していません。再試行しますか?(いいえを押すと終了します。)</value>
   </data>
+  <data name="ErrorPrRetry" xml:space="preserve">
+    <value>エラーが発生しました。もう一度やり直してください。</value>
+  </data>
 </root>

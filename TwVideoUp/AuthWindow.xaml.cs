@@ -16,13 +16,14 @@ using CoreTweet;
 using TwVideoUp.Core;
 using TwVideoUp.Properties;
 using System.Windows.Input;
+using Microsoft.WindowsAPICodePack.Dialogs;
 
 namespace TwVideoUp
 {
     /// <summary>
     /// AuthWindow.xaml の相互作用ロジック
     /// </summary>
-    public partial class AuthWindow : Window
+    public partial class AuthWindow
     {
         public AuthWindow()
         {
@@ -33,13 +34,13 @@ namespace TwVideoUp
 
         }
 
-        private OAuth.OAuthSession session;
-        private Tokens tokens;
-        public string code;
+        private OAuth.OAuthSession _session;
+        private Tokens _tokens;
+        private string _code;
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            Title = String.Format("{0} - {1}", Properties.Resources.TitleAuth, Assembly.GetExecutingAssembly().GetName().Name);
+            Title = $"{Properties.Resources.TitleAuth} - {Assembly.GetExecutingAssembly().GetName().Name}";
             InitAuth();
         }
 
@@ -49,10 +50,10 @@ namespace TwVideoUp
         private async void InitAuth()
         {
             var bindings = DataContext as db;
-            session = await OAuth.AuthorizeAsync(Twitter.CK, Twitter.CS);
-            bindings.AuthUrl = session.AuthorizeUri;
-            AuthLinkText.Text = session.AuthorizeUri.ToString();
-            AuthLinklink.NavigateUri = session.AuthorizeUri;
+            _session = await OAuth.AuthorizeAsync(Twitter.CK, Twitter.CS);
+            bindings.AuthUrl = _session.AuthorizeUri;
+            AuthLinkText.Text = _session.AuthorizeUri.ToString();
+            AuthLinklink.NavigateUri = _session.AuthorizeUri;
             Console.WriteLine(bindings.AuthUrl.ToString());
 
             pin.IsEnabled = true;
@@ -72,27 +73,37 @@ namespace TwVideoUp
         private async void authButton_Click(object sender, RoutedEventArgs e)
         {
             var bindings = DataContext as db;
-            code = pin.Text;
+            _code = pin.Text;
             try
             {
-                tokens = await session.GetTokensAsync(code);
+                _tokens = await _session.GetTokensAsync(_code);
             }
             catch (TwitterException ex)
             {
-                MessageBox.Show("エラーが発生しました、もう一度やり直してください\n" + ex.Message,
-                                "info", MessageBoxButton.OK, MessageBoxImage.Error);
+                new TaskDialog()
+                {
+                    Caption = "Auth Error",
+                    InstructionText = Properties.Resources.ErrorPrRetry,
+                    Text = ex.Message,
+                    Icon = TaskDialogStandardIcon.Error
+                }.Show();
                 return;
 
             }
             catch (WebException ex)
             {
-                MessageBox.Show("エラーが発生しました、もう一度やり直してください\n" + ex.Message,
-                                                "info", MessageBoxButton.OK, MessageBoxImage.Error);
+                new TaskDialog()
+                {
+                    Caption = "Network Error",
+                    InstructionText = Properties.Resources.ErrorPrRetry,
+                    Text = ex.Message,
+                    Icon = TaskDialogStandardIcon.Error
+                }.Show();
                 return;
             }
 
-            Settings.Default.token = tokens.AccessToken;
-            Settings.Default.secret = tokens.AccessTokenSecret;
+            Settings.Default.token = _tokens.AccessToken;
+            Settings.Default.secret = _tokens.AccessTokenSecret;
             Settings.Default.Save();
             Close();
 
@@ -112,21 +123,21 @@ namespace TwVideoUp
         private void pin_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
         {
             //ボタン有効化
-            code = pin.Text;
+            _code = pin.Text;
             int n;
-            if (code.Length == 7 && int.TryParse(code, out n) && authButton.IsEnabled == false)
+            if (_code.Length == 7 && int.TryParse(_code, out n) && authButton.IsEnabled == false)
             {
                     authButton.IsEnabled = true;
             }
-            else if (authButton.IsEnabled == true)
+            else if (authButton.IsEnabled)
             {
                     authButton.IsEnabled = false;
             }
         }
 
-        private void enter(object sender, System.Windows.Input.KeyEventArgs e)
+        private void pin_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.Key == Key.Return)
+            if (e.Key == Key.Return && authButton.IsEnabled)
             {
                 authButton_Click(sender,e);
             }

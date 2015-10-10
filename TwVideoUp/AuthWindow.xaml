@@ -21,7 +21,7 @@
         <TextBlock x:Name="textBlock1" HorizontalAlignment="Left" Margin="10,142,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="14" Width="282">
             2. <Run Text="{Binding UiTextPinNav, Mode=OneWay ,Source={StaticResource Resources}}"/><LineBreak/><Run/>
         </TextBlock>
-        <TextBox x:Name="pin" HorizontalAlignment="Left" Height="36" Margin="56,164,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="157" FontSize="24" IsEnabled="False" TextChanged="pin_TextChanged" MaxLines="1" MaxLength="7" KeyDown="enter"/>
+        <TextBox x:Name="pin" HorizontalAlignment="Left" Height="36" Margin="56,164,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="157" FontSize="24" IsEnabled="False" TextChanged="pin_TextChanged" MaxLines="1" MaxLength="7" KeyDown="pin_KeyDown"/>
         <Button x:Name="authButton" Content="{Binding UiButtonAuth, Mode=OneWay, Source={StaticResource Resources}}" HorizontalAlignment="Left" Height="36" Margin="218,164,0,0" VerticalAlignment="Top" Width="64" FontSize="20" Click="authButton_Click" IsEnabled="False"/>
 
     </Grid>
