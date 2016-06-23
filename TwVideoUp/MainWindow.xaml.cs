@@ -355,7 +355,7 @@ namespace TwVideoUp
                 {
                     if (uploadStatus.ProcessingInfo.ProgressPercent != null)
                         SetProgress(uploadStatus.ProcessingInfo.ProgressPercent.Value);
-                    await Task.Delay(uploadStatus.ProcessingInfo.CheckAfterSecs);
+                    await Task.Delay(uploadStatus.ProcessingInfo.CheckAfterSecs*1000);
                 }
 
                 Status s = await tokens.Statuses.UpdateAsync(
