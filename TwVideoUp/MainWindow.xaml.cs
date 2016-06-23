@@ -8,6 +8,8 @@
 
 using System;
 using System.IO;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -184,13 +186,13 @@ namespace TwVideoUp
             context.Media = new Uri(filename);
             FileInfo fi = new FileInfo(filename);
             long fileSize = fi.Length;
-            if(fileSize > 15*1024*1024)
+            if(fileSize > 500*1024*1024)
             {
 //                MessageBox.Show(Properties.Resources.FileSizeTooLarge, Properties.Resources.Attention);
                 Dialog(Properties.Resources.Attention, Properties.Resources.InsFileSizeTooLarge,
                     Properties.Resources.FileSizeTooLarge, TaskDialogStandardIcon.Warning).Show();
             }
-            if (Duration(filename) > 30*1000)
+            if (Duration(filename) > 140*1000)
             {
 //                MessageBox.Show(Properties.Resources.MediaTooLong, Properties.Resources.Attention);
                 Dialog(Properties.Resources.Attention, Properties.Resources.InsMediaTooLong,
@@ -342,8 +344,20 @@ namespace TwVideoUp
 
                 var fi = new FileInfo(uri.LocalPath);
 //                MessageBox.Show(fi.FullName);
-//                MessageBox.Show(fi.Length.ToString());
-                MediaUploadResult result = await tokens.Media.UploadChunkedAsync(fi.OpenRead(),(int)fi.Length , UploadMediaType.Video, new { });
+//                MessageBox.Show(fi.Length.ToString());                     
+                MediaUploadResult result =
+                    await
+                        tokens.Media.UploadChunkedAsync(fi.OpenRead(), fi.Length, UploadMediaType.Video,
+                            new {media_category = "tweet_video"}, CancellationToken.None);
+                UploadStatusCommandResult uploadStatus;
+                while ((uploadStatus = ( await tokens.Media.UploadStatusCommandAsync(result.MediaId)))?.ProcessingInfo?.State ==
+                       "in_progress")
+                {
+                    if (uploadStatus.ProcessingInfo.ProgressPercent != null)
+                        SetProgress(uploadStatus.ProcessingInfo.ProgressPercent.Value);
+                    await Task.Delay(uploadStatus.ProcessingInfo.CheckAfterSecs);
+                }
+
                 Status s = await tokens.Statuses.UpdateAsync(
                     status => text,
                     media_ids => result.MediaId
@@ -393,6 +407,18 @@ namespace TwVideoUp
         }
 
         /// <summary>
+        /// アップロード進捗を受信した際にプログレスバーに反映する
+        /// </summary>
+        /// <param name="progress">進捗(%)</param>
+        private void SetProgress(int progress)
+        {
+            PGbar.IsIndeterminate = false;
+            PGbar.Value = progress;
+            TaskbarItemInfo.ProgressState = TaskbarItemProgressState.Normal;
+            TaskbarItemInfo.ProgressValue = progress;
+        }
+
+        /// <summary>
         /// ツイート送信成否に関わらず共通実行するメソッド
         /// </summary>
         /// <param name="status">成否</param>
@@ -408,8 +434,10 @@ namespace TwVideoUp
 
             }
             PGbar.IsIndeterminate = false;
+            PGbar.Value = 0;
             SendTweetButton.IsEnabled = true;
             TaskbarItemInfo.ProgressState=TaskbarItemProgressState.None;
+            TaskbarItemInfo.ProgressValue = 0;
         }
 
         private void ProgressBar_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)

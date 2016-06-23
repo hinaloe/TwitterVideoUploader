@@ -29,7 +29,7 @@ namespace TwVideoUp.Properties {
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        public Resources() {
+        internal Resources() {
         }
         
         /// <summary>
@@ -106,7 +106,7 @@ namespace TwVideoUp.Properties {
         }
         
         /// <summary>
-        ///   Must less than 15MB :( に類似しているローカライズされた文字列を検索します。
+        ///   Must less than 500MB :( に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string FileSizeTooLarge {
             get {
@@ -133,7 +133,7 @@ namespace TwVideoUp.Properties {
         }
         
         /// <summary>
-        ///   Must less than 30 sec :( に類似しているローカライズされた文字列を検索します。
+        ///   Must less than 140 sec :( に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string MediaTooLong {
             get {
