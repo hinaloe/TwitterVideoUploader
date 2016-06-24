@@ -65,8 +65,8 @@
     <ApplicationIcon>Resources\appicon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="CoreTweet, Version=0.6.2.19552, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\CoreTweet.0.6.2\lib\net45\CoreTweet.dll</HintPath>
+    <Reference Include="CoreTweet, Version=0.6.4.304, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\CoreTweet.0.6.4.304\lib\net45\CoreTweet.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.WindowsAPICodePack">
