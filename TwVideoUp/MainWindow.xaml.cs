@@ -186,7 +186,7 @@ namespace TwVideoUp
             context.Media = new Uri(filename);
             FileInfo fi = new FileInfo(filename);
             long fileSize = fi.Length;
-            if (fileSize > 500*1024*1024)
+            if (fileSize > 512*1024*1024)
             {
 //                MessageBox.Show(Properties.Resources.FileSizeTooLarge, Properties.Resources.Attention);
                 Dialog(Properties.Resources.Attention, Properties.Resources.InsFileSizeTooLarge,
