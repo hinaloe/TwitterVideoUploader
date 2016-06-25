@@ -124,7 +124,7 @@
     <value>Attention</value>
   </data>
   <data name="FileSizeTooLarge" xml:space="preserve">
-    <value>Must less than 15MB :(</value>
+    <value>Must less than 500MB :(</value>
   </data>
   <data name="menuReauth" xml:space="preserve">
     <value>Re-Login (Change Account)</value>
@@ -139,7 +139,7 @@
     <value>Media Duration is too long</value>
   </data>
   <data name="MediaTooLong" xml:space="preserve">
-    <value>Must less than 30 sec :(</value>
+    <value>Must less than 140 sec :(</value>
   </data>
   <data name="menuCheck" xml:space="preserve">
     <value>Check URL After Send Tweet</value>

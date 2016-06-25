@@ -7,7 +7,10 @@
 //
 
 using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -29,11 +32,12 @@ namespace TwVideoUp
     {
         private const int FAIL = 0;
         private const int SUCCESS = 1;
+        private MediaAsyncExtend mediaAsyncExtend;
 
         public MainWindow()
         {
             InitializeComponent();
-             var status = new StatusWM
+            var status = new StatusWM
             {
                 Status = "",
                 Media = null,
@@ -49,13 +53,12 @@ namespace TwVideoUp
 
             ContextMenuGen();
 
-            tokens = Tokens.Create(Twitter.CK, Twitter.CS, 
-                Settings.Default.token, 
+            tokens = Tokens.Create(Twitter.CK, Twitter.CS,
+                Settings.Default.token,
                 Settings.Default.secret
                 );
 
-
-
+            mediaAsyncExtend = new MediaAsyncExtend(tokens);
         }
 
         private static void AuthStart()
@@ -72,7 +75,7 @@ namespace TwVideoUp
             if (Settings.Default.token == "")
             {
 #if DEBUG
-                MessageBox.Show("認証が完了していません");           
+                MessageBox.Show("認証が完了していません");
 #else
                 MessageBoxResult result = MessageBox.Show(Properties.Resources.MsgUnAuth, Properties.Resources.Attention,
                     MessageBoxButton.YesNo, MessageBoxImage.Warning);
@@ -113,7 +116,7 @@ namespace TwVideoUp
             };
             menuItemCheckable.SetBinding(MenuItem.IsCheckedProperty, new Binding("Check"));
             menu.Items.Add(menuItemCheckable);
-            
+
             // Re-Auth
             MenuItem menuItemReAuth = new MenuItem();
             menuItemReAuth.Header = Properties.Resources.menuReauth;
@@ -121,7 +124,7 @@ namespace TwVideoUp
             menu.Items.Add(menuItemReAuth);
             // About APP
             MenuItem menuItemAbout = new MenuItem();
-            menuItemAbout.Header = String.Format(Properties.Resources.AboutThis, "TwVideoUp");
+            menuItemAbout.Header = string.Format(Properties.Resources.AboutThis, "TwVideoUp");
             menuItemAbout.Click += AboutApp;
             menu.Items.Add(menuItemAbout);
 
@@ -140,7 +143,6 @@ namespace TwVideoUp
                 Settings.Default.token,
                 Settings.Default.secret
                 );
-
         }
 
         /// <summary>
@@ -184,13 +186,13 @@ namespace TwVideoUp
             context.Media = new Uri(filename);
             FileInfo fi = new FileInfo(filename);
             long fileSize = fi.Length;
-            if(fileSize > 15*1024*1024)
+            if (fileSize > 512*1024*1024)
             {
 //                MessageBox.Show(Properties.Resources.FileSizeTooLarge, Properties.Resources.Attention);
                 Dialog(Properties.Resources.Attention, Properties.Resources.InsFileSizeTooLarge,
                     Properties.Resources.FileSizeTooLarge, TaskDialogStandardIcon.Warning).Show();
             }
-            if (Duration(filename) > 30*1000)
+            if (Duration(filename) > 140*1000)
             {
 //                MessageBox.Show(Properties.Resources.MediaTooLong, Properties.Resources.Attention);
                 Dialog(Properties.Resources.Attention, Properties.Resources.InsMediaTooLong,
@@ -198,7 +200,6 @@ namespace TwVideoUp
             }
             Console.WriteLine(mediaElement.Height);
             mediaElement.Source = context.Media;
-
         }
 
         /// <summary>
@@ -216,7 +217,7 @@ namespace TwVideoUp
             };
 
             bool? res = fileDialog.ShowDialog();
-            if(res == true)
+            if (res == true)
             {
                 return fileDialog.FileName;
             }
@@ -236,19 +237,17 @@ namespace TwVideoUp
         {
             if (e.Data.GetDataPresent(DataFormats.FileDrop))
             {
-                string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
+                string[] files = (string[]) e.Data.GetData(DataFormats.FileDrop);
 
                 if (files[0].EndsWith(".mp4") && File.Exists(@files[0]))
                 {
-                    if (DataContext != null) mediaElement.Source = ((StatusWM)DataContext).Media = new Uri(files[0]);
+                    if (DataContext != null) mediaElement.Source = ((StatusWM) DataContext).Media = new Uri(files[0]);
                 }
                 else
                 {
                     Dialog("Please drop mp4 video", "Invalid extension", "Only mp4 can upload",
                         TaskDialogStandardIcon.Error).Show();
                 }
-
-
             }
             else
             {
@@ -268,7 +267,7 @@ namespace TwVideoUp
         /// <param name="e"></param>
         private void m_PauseButton_Click(object sender, RoutedEventArgs e)
         {
-            if(mediaElement.IsLoaded)
+            if (mediaElement.IsLoaded)
                 mediaElement.Pause();
         }
 
@@ -279,7 +278,7 @@ namespace TwVideoUp
         /// <param name="e"></param>
         private void m_PlayButton_Click(object sender, RoutedEventArgs e)
         {
-            if(mediaElement.IsLoaded)
+            if (mediaElement.IsLoaded)
                 mediaElement.Play();
         }
 
@@ -293,7 +292,7 @@ namespace TwVideoUp
         /// 新しいウインドウでプレビュー
         /// </summary>
         /// <param name="uri"></param>
-        private void openMediaPreviewWindow (Uri uri)
+        private void openMediaPreviewWindow(Uri uri)
         {
             MediaElement media = new MediaElement {Source = uri};
             Window c = new Window
@@ -303,14 +302,12 @@ namespace TwVideoUp
                 WindowStyle = WindowStyle.ToolWindow
             };
             c.Show();
-
         }
 
         private void mediaElement_SourceUpdated(object sender, DataTransferEventArgs e)
         {
             mediaElement.Play();
             mediaElement.Pause();
-
         }
 
         /// <summary>
@@ -342,8 +339,25 @@ namespace TwVideoUp
 
                 var fi = new FileInfo(uri.LocalPath);
 //                MessageBox.Show(fi.FullName);
-//                MessageBox.Show(fi.Length.ToString());
-                MediaUploadResult result = await tokens.Media.UploadChunkedAsync(fi.OpenRead(),(int)fi.Length , UploadMediaType.Video, new { });
+//                MessageBox.Show(fi.Length.ToString());                     
+                UploadFinalizeCommandResult result =
+                    await
+                        mediaAsyncExtend.UploadChunkedAsync(fi.OpenRead(), fi.Length, UploadMediaType.Video,
+                            new Dictionary<string, object>
+                            {
+                                {"media_category", "tweet_video"}
+                            }, CancellationToken.None);
+
+                do
+                {
+                    if (result.ProcessingInfo.ProgressPercent != null)
+                        SetProgress(result.ProcessingInfo.ProgressPercent.Value);
+                    await Task.Delay(result.ProcessingInfo.CheckAfterSecs.Value*1000);
+                } while (
+                    (result = await tokens.Media.UploadStatusCommandAsync(result.MediaId))?.ProcessingInfo?
+                        .CheckAfterSecs != null);
+
+
                 Status s = await tokens.Statuses.UpdateAsync(
                     status => text,
                     media_ids => result.MediaId
@@ -351,9 +365,8 @@ namespace TwVideoUp
                 AfterSendTweet(SUCCESS);
                 // めんどくさいのでツイート処理は別添え
                 SucceedUpload(s);
-
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 AfterSendTweet(FAIL);
                 Console.WriteLine(e.StackTrace);
@@ -379,7 +392,6 @@ namespace TwVideoUp
         {
             var dc = DataContext as StatusWM;
             updateWithMedia(dc.Status, dc.Media);
-
         }
 
         /// <summary>
@@ -389,7 +401,19 @@ namespace TwVideoUp
         {
             SendTweetButton.IsEnabled = false;
             PGbar.IsIndeterminate = true;
-            TaskbarItemInfo.ProgressState=TaskbarItemProgressState.Indeterminate;
+            TaskbarItemInfo.ProgressState = TaskbarItemProgressState.Indeterminate;
+        }
+
+        /// <summary>
+        /// アップロード進捗を受信した際にプログレスバーに反映する
+        /// </summary>
+        /// <param name="progress">進捗(%)</param>
+        private void SetProgress(int progress)
+        {
+            PGbar.IsIndeterminate = false;
+            PGbar.Value = progress;
+            TaskbarItemInfo.ProgressState = TaskbarItemProgressState.Normal;
+            TaskbarItemInfo.ProgressValue = progress/100.0;
         }
 
         /// <summary>
@@ -398,23 +422,22 @@ namespace TwVideoUp
         /// <param name="status">成否</param>
         private void AfterSendTweet(int status)
         {
-            
             if (status == SUCCESS)
             {
                 StatusWM dc = DataContext as StatusWM;
                 dc.Media = null;
                 dc.Status = "";
                 StatusArea.Text = "";
-
             }
             PGbar.IsIndeterminate = false;
+            PGbar.Value = 0;
             SendTweetButton.IsEnabled = true;
-            TaskbarItemInfo.ProgressState=TaskbarItemProgressState.None;
+            TaskbarItemInfo.ProgressState = TaskbarItemProgressState.None;
+            TaskbarItemInfo.ProgressValue = 0;
         }
 
         private void ProgressBar_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-
         }
 
         /// <summary>
@@ -454,6 +477,5 @@ namespace TwVideoUp
             };
             return dialog;
         }
-
     }
 }
