@@ -7,6 +7,7 @@
 //
 
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
@@ -31,6 +32,7 @@ namespace TwVideoUp
     {
         private const int FAIL = 0;
         private const int SUCCESS = 1;
+        private MediaAsyncExtend mediaAsyncExtend;
 
         public MainWindow()
         {
@@ -55,6 +57,8 @@ namespace TwVideoUp
                 Settings.Default.token,
                 Settings.Default.secret
                 );
+
+            mediaAsyncExtend = new MediaAsyncExtend(tokens);
         }
 
         private static void AuthStart()
@@ -336,15 +340,23 @@ namespace TwVideoUp
                 var fi = new FileInfo(uri.LocalPath);
 //                MessageBox.Show(fi.FullName);
 //                MessageBox.Show(fi.Length.ToString());                     
-                MediaUploadResult result =
-                    await tokens.Media.UploadChunkedAsync(fi.OpenRead(), fi.Length, UploadMediaType.Video, "tweet_video");
-//                UploadStatusCommandResult uploadStatus;
-//                while ((uploadStatus = (await tokens.Media.UploadStatusCommandAsync(result.MediaId)))?.ProcessingInfo.State =="in_progress")
-//                {
-//                    if (uploadStatus.ProcessingInfo.ProgressPercent != null)
-//                        SetProgress(uploadStatus.ProcessingInfo.ProgressPercent.Value);
-//                    await Task.Delay(uploadStatus.ProcessingInfo.CheckAfterSecs*1000);
-//                }
+                UploadFinalizeCommandResult result =
+                    await
+                        mediaAsyncExtend.UploadChunkedAsync(fi.OpenRead(), fi.Length, UploadMediaType.Video,
+                            new Dictionary<string, object>
+                            {
+                                {"media_category", "tweet_video"}
+                            }, CancellationToken.None);
+
+                do
+                {
+                    if (result.ProcessingInfo.ProgressPercent != null)
+                        SetProgress(result.ProcessingInfo.ProgressPercent.Value);
+                    await Task.Delay(result.ProcessingInfo.CheckAfterSecs.Value*1000);
+                } while (
+                    (result = await tokens.Media.UploadStatusCommandAsync(result.MediaId))?.ProcessingInfo?
+                        .CheckAfterSecs != null);
+
 
                 Status s = await tokens.Statuses.UpdateAsync(
                     status => text,
@@ -401,7 +413,7 @@ namespace TwVideoUp
             PGbar.IsIndeterminate = false;
             PGbar.Value = progress;
             TaskbarItemInfo.ProgressState = TaskbarItemProgressState.Normal;
-            TaskbarItemInfo.ProgressValue = progress;
+            TaskbarItemInfo.ProgressValue = progress/100.0;
         }
 
         /// <summary>

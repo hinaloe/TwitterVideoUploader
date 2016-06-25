@@ -107,12 +107,14 @@
     <Compile Include="AuthWindow.xaml.cs">
       <DependentUpon>AuthWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Core\MediaAsyncExtend.cs" />
     <Compile Include="Core\Twitter.cs" />
     <Compile Include="EntitiesInfoWindow.xaml.cs">
       <DependentUpon>EntitiesInfoWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Settings.cs" />
     <Compile Include="StatusWM.cs" />
+    <Compile Include="util\InternalUtils.cs" />
     <Page Include="AboutApp.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
