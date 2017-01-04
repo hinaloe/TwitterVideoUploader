@@ -22,6 +22,7 @@ using Microsoft.WindowsAPICodePack.Dialogs;
 using Microsoft.WindowsAPICodePack.Shell;
 using TwVideoUp.Core;
 using TwVideoUp.Properties;
+using System.Windows.Interop;
 
 namespace TwVideoUp
 {
@@ -152,8 +153,6 @@ namespace TwVideoUp
         /// <param name="e"></param>
         private void AboutApp(object sender, RoutedEventArgs e)
         {
-//            var context = DataContext as StatusWM;
-//            MessageBox.Show(context.Check.ToString());
             var w = new AboutApp();
             w.ShowDialog();
         }
@@ -237,7 +236,7 @@ namespace TwVideoUp
         {
             if (e.Data.GetDataPresent(DataFormats.FileDrop))
             {
-                string[] files = (string[]) e.Data.GetData(DataFormats.FileDrop);
+                var files = (string[]) e.Data.GetData(DataFormats.FileDrop);
 
                 if (files[0].EndsWith(".mp4") && File.Exists(@files[0]))
                 {
@@ -251,7 +250,7 @@ namespace TwVideoUp
             }
             else
             {
-                MessageBox.Show("Only mp4 video file can drop");
+                MessageBox.Show(this, "Only mp4 video file can drop");
             }
         }
 
@@ -473,7 +472,8 @@ namespace TwVideoUp
                 InstructionText = instructionText,
                 Text = text,
                 Icon = icon,
-                StandardButtons = TaskDialogStandardButtons.Ok
+                StandardButtons = TaskDialogStandardButtons.Ok,
+                OwnerWindowHandle = new WindowInteropHelper(this).Handle
             };
             return dialog;
         }
