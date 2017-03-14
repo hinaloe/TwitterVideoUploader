@@ -2,13 +2,9 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Linq.Expressions;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using CoreTweet;
-using CoreTweet.Core;
-using CoreTweet.Rest;
 using TwVideoUp.util;
 
 namespace TwVideoUp.Core
@@ -20,7 +16,7 @@ namespace TwVideoUp.Core
             coreTweeTokens = token;
         }
 
-        private Tokens coreTweeTokens;
+        private readonly Tokens coreTweeTokens;
 
         public Task<UploadFinalizeCommandResult> UploadChunkedAsync(Stream media, long totalBytes, UploadMediaType mediaType,
             IEnumerable<KeyValuePair<string, object>> parameters, CancellationToken cancellationToken)

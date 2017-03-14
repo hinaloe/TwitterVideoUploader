@@ -33,7 +33,10 @@ namespace TwVideoUp
     {
         private const int FAIL = 0;
         private const int SUCCESS = 1;
-        private MediaAsyncExtend mediaAsyncExtend;
+        private readonly MediaAsyncExtend _mediaAsyncExtend;
+
+
+        private Tokens _tokens;
 
         public MainWindow()
         {
@@ -54,12 +57,12 @@ namespace TwVideoUp
 
             ContextMenuGen();
 
-            tokens = Tokens.Create(Twitter.CK, Twitter.CS,
+            _tokens = Tokens.Create(Twitter.CK, Twitter.CS,
                 Settings.Default.token,
                 Settings.Default.secret
                 );
 
-            mediaAsyncExtend = new MediaAsyncExtend(tokens);
+            _mediaAsyncExtend = new MediaAsyncExtend(_tokens);
         }
 
         private static void AuthStart()
@@ -101,16 +104,14 @@ namespace TwVideoUp
             }
         }
 
-        public Tokens tokens;
-
         /// <summary>
         /// コンテキストメニューを生成、バインドします。
         /// </summary>
         private void ContextMenuGen()
         {
-            ContextMenu menu = new ContextMenu();
+            var menu = new ContextMenu();
             // Check URL
-            MenuItem menuItemCheckable = new MenuItem()
+            var menuItemCheckable = new MenuItem()
             {
                 IsCheckable = true,
                 Header = Properties.Resources.menuCheck
@@ -119,13 +120,11 @@ namespace TwVideoUp
             menu.Items.Add(menuItemCheckable);
 
             // Re-Auth
-            MenuItem menuItemReAuth = new MenuItem();
-            menuItemReAuth.Header = Properties.Resources.menuReauth;
+            var menuItemReAuth = new MenuItem {Header = Properties.Resources.menuReauth};
             menuItemReAuth.Click += ReAuth;
             menu.Items.Add(menuItemReAuth);
             // About APP
-            MenuItem menuItemAbout = new MenuItem();
-            menuItemAbout.Header = string.Format(Properties.Resources.AboutThis, "TwVideoUp");
+            var menuItemAbout = new MenuItem {Header = string.Format(Properties.Resources.AboutThis, "TwVideoUp")};
             menuItemAbout.Click += AboutApp;
             menu.Items.Add(menuItemAbout);
 
@@ -140,7 +139,7 @@ namespace TwVideoUp
         private void ReAuth(object sender, RoutedEventArgs e)
         {
             AuthStart();
-            tokens = Tokens.Create(Twitter.CK, Twitter.CS,
+            _tokens = Tokens.Create(Twitter.CK, Twitter.CS,
                 Settings.Default.token,
                 Settings.Default.secret
                 );
@@ -215,12 +214,8 @@ namespace TwVideoUp
                 InitialDirectory = initaldir
             };
 
-            bool? res = fileDialog.ShowDialog();
-            if (res == true)
-            {
-                return fileDialog.FileName;
-            }
-            return null;
+            var res = fileDialog.ShowDialog();
+            return res == true ? fileDialog.FileName : null;
         }
 
         //        private void mediaElement_MediaOpened(object sender, RoutedEventArgs e)
@@ -238,7 +233,7 @@ namespace TwVideoUp
             {
                 var files = (string[]) e.Data.GetData(DataFormats.FileDrop);
 
-                if (files[0].EndsWith(".mp4") && File.Exists(@files[0]))
+                if (files != null && files[0].EndsWith(".mp4") && File.Exists(@files[0]))
                 {
                     if (DataContext != null) mediaElement.Source = ((StatusWM) DataContext).Media = new Uri(files[0]);
                 }
@@ -293,8 +288,8 @@ namespace TwVideoUp
         /// <param name="uri"></param>
         private void openMediaPreviewWindow(Uri uri)
         {
-            MediaElement media = new MediaElement {Source = uri};
-            Window c = new Window
+            var media = new MediaElement {Source = uri};
+            var c = new Window
             {
                 Content = media,
                 Title = "Preview",
@@ -341,7 +336,7 @@ namespace TwVideoUp
 //                MessageBox.Show(fi.Length.ToString());                     
                 UploadFinalizeCommandResult result =
                     await
-                        mediaAsyncExtend.UploadChunkedAsync(fi.OpenRead(), fi.Length, UploadMediaType.Video,
+                        _mediaAsyncExtend.UploadChunkedAsync(fi.OpenRead(), fi.Length, UploadMediaType.Video,
                             new Dictionary<string, object>
                             {
                                 {"media_category", "tweet_video"}
@@ -353,11 +348,11 @@ namespace TwVideoUp
                         SetProgress(result.ProcessingInfo.ProgressPercent.Value);
                     await Task.Delay(result.ProcessingInfo.CheckAfterSecs.Value*1000);
                 } while (
-                    (result = await tokens.Media.UploadStatusCommandAsync(result.MediaId))?.ProcessingInfo?
+                    (result = await _tokens.Media.UploadStatusCommandAsync(result.MediaId))?.ProcessingInfo?
                         .CheckAfterSecs != null);
 
 
-                Status s = await tokens.Statuses.UpdateAsync(
+                Status s = await _tokens.Statuses.UpdateAsync(
                     status => text,
                     media_ids => result.MediaId
                     );
@@ -375,7 +370,7 @@ namespace TwVideoUp
 
         private void SucceedUpload(Status status)
         {
-            StatusWM context = DataContext as StatusWM;
+            var context = DataContext as StatusWM;
             if (context?.Check == true)
             {
                 EntitiesInfoWindow.ShowVideoInfo(status.ExtendedEntities);
@@ -423,7 +418,7 @@ namespace TwVideoUp
         {
             if (status == SUCCESS)
             {
-                StatusWM dc = DataContext as StatusWM;
+                var dc = DataContext as StatusWM;
                 dc.Media = null;
                 dc.Status = "";
                 StatusArea.Text = "";
@@ -446,7 +441,7 @@ namespace TwVideoUp
         /// <returns>メディアファイルの長さ(ミリ秒)</returns>
         private double Duration(string file)
         {
-            ShellFile so = ShellFile.FromFilePath(file);
+            var so = ShellFile.FromFilePath(file);
             double nanoseconds;
             double.TryParse(so.Properties.System.Media.Duration.Value.ToString(), out nanoseconds);
             if (nanoseconds > 0)
