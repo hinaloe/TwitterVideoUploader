@@ -14,12 +14,12 @@ Upload movie to Twitter from Your Win PC!
 
 Windows 7,8,10
 
-##Can Upload
+## Can Upload
 
 - File size MAX:512MB  
 - Video formats: MP4
 
-- ###Recommend
+### Recommend
 
 > - Duration should be between 0.5 seconds and ~~30 seconds (sync) /~~ **140 seconds (async)**
 > - File size should not exceed ~~15 mb (sync) /~~ **512 mb (async)**
