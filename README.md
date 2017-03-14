@@ -16,16 +16,22 @@ Windows 7,8,10
 
 ##Can Upload
 
-- File size MAX:15MB  
-- Video formats: MP4  
+- File size MAX:512MB  
+- Video formats: MP4
 
 - ###Recommend
 
-> - Duration should be between 0.5 seconds and 30 seconds  
-> - Dimensions should be between 32x32 and 1280x1024  
-> - Aspect ratio should be between 1:3 and 3:1  
-> - Frame rate should be 40fps or less  
-> - Audio should be mono or stereo  
+> - Duration should be between 0.5 seconds and ~~30 seconds (sync) /~~ **140 seconds (async)**
+> - File size should not exceed ~~15 mb (sync) /~~ **512 mb (async)**
+> - Dimensions should be between 32x32 and 1280x1024
+> - Aspect ratio should be between 1:3 and 3:1
+> - Frame rate should be 40fps or less
+> - Must not have open GOP
+> - Must use progressive scan
+> - Must have 1:1 pixel aspect ratio
+> - Only YUV 4:2:0 pixel format is supported.
+> - Audio should be mono or stereo, not 5.1 or greater
+> - Audio must be AAC with Low Complexity profile. High-Efficiency AAC is not supported.
 >
 > Quote from [Twitter Uploading Media](https://dev.twitter.com/rest/public/uploading-media#videorecs)
 
