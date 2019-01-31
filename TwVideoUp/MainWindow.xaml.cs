@@ -1,4 +1,4 @@
-﻿// TwitterVideoUploader
+// TwitterVideoUploader
 //
 // Copyright (c) 2015 hinaloe
 //
@@ -57,8 +57,6 @@ namespace TwVideoUp
                 Settings.Default.token,
                 Settings.Default.secret
                 );
-
-            mediaAsyncExtend = new MediaAsyncExtend(tokens);
         }
 
         private static void AuthStart()
@@ -340,23 +338,15 @@ namespace TwVideoUp
                 var fi = new FileInfo(uri.LocalPath);
 //                MessageBox.Show(fi.FullName);
 //                MessageBox.Show(fi.Length.ToString());                     
-                UploadFinalizeCommandResult result =
-                    await
-                        mediaAsyncExtend.UploadChunkedAsync(fi.OpenRead(), fi.Length, UploadMediaType.Video,
-                            new Dictionary<string, object>
-                            {
-                                {"media_category", "tweet_video"}
-                            }, CancellationToken.None);
-
-                do
-                {
-                    if (result.ProcessingInfo.ProgressPercent != null)
-                        SetProgress(result.ProcessingInfo.ProgressPercent.Value);
-                    await Task.Delay(result.ProcessingInfo.CheckAfterSecs.Value*1000);
-                } while (
-                    (result = await tokens.Media.UploadStatusCommandAsync(result.MediaId))?.ProcessingInfo?
-                        .CheckAfterSecs != null);
-
+                var result = await tokens.Media.UploadChunkedAsync(fi.OpenRead(), fi.Length, UploadMediaType.Video,
+                    new Dictionary<string, object>
+                    {
+                        {"media_category", "tweet_video"}
+                    }, CancellationToken.None,
+                    new Progress<UploadChunkedProgressInfo>(handler: progress =>
+                    {
+                        SetProgress(progress.ProcessingProgressPercent);
+                    }));
 
                 Status s = await tokens.Statuses.UpdateAsync(
                     status => text,
