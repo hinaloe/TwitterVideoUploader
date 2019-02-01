@@ -1,4 +1,4 @@
-﻿// TwitterVideoUploader
+// TwitterVideoUploader
 //
 // Copyright (c) 2015 hinaloe
 //
@@ -33,8 +33,6 @@ namespace TwVideoUp
     {
         private const int FAIL = 0;
         private const int SUCCESS = 1;
-        private readonly MediaAsyncExtend _mediaAsyncExtend;
-
 
         private Tokens _tokens;
 
@@ -61,8 +59,6 @@ namespace TwVideoUp
                 Settings.Default.token,
                 Settings.Default.secret
                 );
-
-            _mediaAsyncExtend = new MediaAsyncExtend(_tokens);
         }
 
         private static void AuthStart()
@@ -334,23 +330,15 @@ namespace TwVideoUp
                 var fi = new FileInfo(uri.LocalPath);
 //                MessageBox.Show(fi.FullName);
 //                MessageBox.Show(fi.Length.ToString());                     
-                UploadFinalizeCommandResult result =
-                    await
-                        _mediaAsyncExtend.UploadChunkedAsync(fi.OpenRead(), fi.Length, UploadMediaType.Video,
-                            new Dictionary<string, object>
-                            {
-                                {"media_category", "tweet_video"}
-                            }, CancellationToken.None);
-
-                do
-                {
-                    if (result.ProcessingInfo.ProgressPercent != null)
-                        SetProgress(result.ProcessingInfo.ProgressPercent.Value);
-                    await Task.Delay(result.ProcessingInfo.CheckAfterSecs.Value*1000);
-                } while (
-                    (result = await _tokens.Media.UploadStatusCommandAsync(result.MediaId))?.ProcessingInfo?
-                        .CheckAfterSecs != null);
-
+                var result = await _tokens.Media.UploadChunkedAsync(fi.OpenRead(), fi.Length, UploadMediaType.Video,
+                    new Dictionary<string, object>
+                    {
+                        {"media_category", "tweet_video"}
+                    }, CancellationToken.None,
+                    new Progress<UploadChunkedProgressInfo>(handler: progress =>
+                    {
+                        SetProgress(progress.ProcessingProgressPercent);
+                    }));
 
                 Status s = await _tokens.Statuses.UpdateAsync(
                     status => text,
