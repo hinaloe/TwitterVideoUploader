@@ -124,7 +124,7 @@
     <value>Attention</value>
   </data>
   <data name="FileSizeTooLarge" xml:space="preserve">
-    <value>Must less than 15MB :(</value>
+    <value>Must less than 500MB :(</value>
   </data>
   <data name="menuReauth" xml:space="preserve">
     <value>Re-Login (Change Account)</value>
@@ -139,7 +139,7 @@
     <value>Media Duration is too long</value>
   </data>
   <data name="MediaTooLong" xml:space="preserve">
-    <value>Must less than 30 sec :(</value>
+    <value>Must less than 140 sec :(</value>
   </data>
   <data name="menuCheck" xml:space="preserve">
     <value>Check URL After Send Tweet</value>
@@ -164,5 +164,14 @@
   </data>
   <data name="UiTextPinNav" xml:space="preserve">
     <value>Please enter your PIN below.</value>
+  </data>
+  <data name="MsgExit" xml:space="preserve">
+    <value>Exit.</value>
+  </data>
+  <data name="MsgUnAuth" xml:space="preserve">
+    <value>Authentication is not completed. Do you want to retry? (And exit by clicking on the No)</value>
+  </data>
+  <data name="ErrorPrRetry" xml:space="preserve">
+    <value>An error occurred. Plese retry again.</value>
   </data>
 </root>
