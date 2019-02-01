@@ -10,11 +10,11 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
+using System.Windows.Interop;
 using System.Windows.Shell;
 using CoreTweet;
 using Microsoft.Win32;
@@ -22,7 +22,6 @@ using Microsoft.WindowsAPICodePack.Dialogs;
 using Microsoft.WindowsAPICodePack.Shell;
 using TwVideoUp.Core;
 using TwVideoUp.Properties;
-using System.Windows.Interop;
 
 namespace TwVideoUp
 {
@@ -199,15 +198,15 @@ namespace TwVideoUp
         /// <summary>
         /// ファイルダイアログを開きます
         /// </summary>
-        /// <param name="initaldir">初期化ディレクトリ(ローカルパス)</param>
+        /// <param name="initialDir">初期化ディレクトリ(ローカルパス)</param>
         /// <returns>選択したファイルのローカルパス(nullable)</returns>
-        private string fileDialog_Open(string initaldir = null)
+        private string fileDialog_Open(string initialDir = null)
         {
             var fileDialog = new OpenFileDialog
             {
                 DefaultExt = ".mp4",
                 Filter = "MP4 video (*.mp4)|*.mp4",
-                InitialDirectory = initaldir
+                InitialDirectory = initialDir
             };
 
             var res = fileDialog.ShowDialog();

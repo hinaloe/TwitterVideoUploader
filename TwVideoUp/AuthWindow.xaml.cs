@@ -11,12 +11,13 @@ using System.Diagnostics;
 using System.Net;
 using System.Reflection;
 using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Input;
 using System.Windows.Navigation;
 using CoreTweet;
+using Microsoft.WindowsAPICodePack.Dialogs;
 using TwVideoUp.Core;
 using TwVideoUp.Properties;
-using System.Windows.Input;
-using Microsoft.WindowsAPICodePack.Dialogs;
 
 namespace TwVideoUp
 {
@@ -80,7 +81,7 @@ namespace TwVideoUp
             }
             catch (TwitterException ex)
             {
-                new TaskDialog()
+                new TaskDialog
                 {
                     Caption = "Auth Error",
                     InstructionText = Properties.Resources.ErrorPrRetry,
@@ -92,7 +93,7 @@ namespace TwVideoUp
             }
             catch (WebException ex)
             {
-                new TaskDialog()
+                new TaskDialog
                 {
                     Caption = "Network Error",
                     InstructionText = Properties.Resources.ErrorPrRetry,
@@ -120,12 +121,11 @@ namespace TwVideoUp
             e.Handled = true;
         }
 
-        private void pin_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
+        private void pin_TextChanged(object sender, TextChangedEventArgs e)
         {
             //ボタン有効化
             _code = pin.Text;
-            int n;
-            if (_code.Length == 7 && int.TryParse(_code, out n) && authButton.IsEnabled == false)
+            if (_code.Length == 7 && int.TryParse(_code, out _) && authButton.IsEnabled == false)
             {
                     authButton.IsEnabled = true;
             }
