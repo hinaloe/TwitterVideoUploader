@@ -33,7 +33,7 @@ Windows 7,8,10
 > - Audio should be mono or stereo, not 5.1 or greater
 > - Audio must be AAC with Low Complexity profile. High-Efficiency AAC is not supported.
 >
-> Quote from [Twitter Uploading Media](https://dev.twitter.com/rest/public/uploading-media#videorecs)
+> Quote from [Twitter Uploading Media](https://developer.twitter.com/en/docs/media/upload-media/uploading-media/media-best-practices)
 
 
 ## License
