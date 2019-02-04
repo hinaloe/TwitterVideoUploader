@@ -177,8 +177,8 @@ namespace TwVideoUp
                 return;
             }
             context.Media = new Uri(filename);
-            FileInfo fi = new FileInfo(filename);
-            long fileSize = fi.Length;
+            var fi = new FileInfo(filename);
+            var fileSize = fi.Length;
             if (fileSize > 512*1024*1024)
             {
 //                MessageBox.Show(Properties.Resources.FileSizeTooLarge, Properties.Resources.Attention);
