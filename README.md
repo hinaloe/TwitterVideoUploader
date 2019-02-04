@@ -35,6 +35,9 @@ Windows 7,8,10
 >
 > Quote from [Twitter Uploading Media](https://dev.twitter.com/rest/public/uploading-media#videorecs)
 
+## Build Environment
+- **Require** Visual Studio 2017 or later (because using C# 7.x)
+  - .NET Desktop development
 
 ## License
 
