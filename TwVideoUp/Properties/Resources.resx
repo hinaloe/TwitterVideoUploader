@@ -174,4 +174,7 @@
   <data name="ErrorPrRetry" xml:space="preserve">
     <value>An error occurred. Plese retry again.</value>
   </data>
+  <data name="ReportTo" xml:space="preserve">
+    <value>Report to:</value>
+  </data>
 </root>

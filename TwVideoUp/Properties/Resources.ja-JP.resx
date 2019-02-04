@@ -178,4 +178,7 @@
   <data name="ErrorPrRetry" xml:space="preserve">
     <value>エラーが発生しました。もう一度やり直してください。</value>
   </data>
+  <data name="ReportTo" xml:space="preserve">
+    <value>報告先:</value>
+  </data>
 </root>
