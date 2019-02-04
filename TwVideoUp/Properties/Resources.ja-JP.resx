@@ -181,4 +181,10 @@
   <data name="ReportTo" xml:space="preserve">
     <value>報告先:</value>
   </data>
+  <data name="Copied" xml:space="preserve">
+    <value>コピーしました</value>
+  </data>
+  <data name="CopyToClipboard" xml:space="preserve">
+    <value>クリップボードにコピー</value>
+  </data>
 </root>

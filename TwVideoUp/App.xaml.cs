@@ -9,6 +9,7 @@
 using System;
 using System.Diagnostics;
 using System.IO;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
@@ -91,8 +92,14 @@ namespace TwVideoUp
 
         private static Window CreateErrorWindow(Exception ex)
         {
-            var copyBtn = new Button {Content = new TextBlock {Text = "Copy to Clipboard."}};
-            copyBtn.Click += (sender, args) => Clipboard.SetText(ex.ToString());
+            var copyBtn = new Button {Content = new TextBlock {Text = TwVideoUp.Properties.Resources.CopyToClipboard}};
+            copyBtn.Click += async (sender, args) =>
+            {
+                Clipboard.SetText(ex.ToString());
+                ((TextBlock) ((Button) sender).Content).Text = TwVideoUp.Properties.Resources.Copied;
+                await Task.Delay(2000);
+                ((TextBlock) ((Button) sender).Content).Text = TwVideoUp.Properties.Resources.CopyToClipboard;
+            };
             var reportTo = new TextBlock
             {
                 TextWrapping = TextWrapping.Wrap,

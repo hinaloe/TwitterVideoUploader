@@ -97,6 +97,24 @@ namespace TwVideoUp.Properties {
         }
         
         /// <summary>
+        ///   Copied. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string Copied {
+            get {
+                return ResourceManager.GetString("Copied", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Copy to Clipboard. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string CopyToClipboard {
+            get {
+                return ResourceManager.GetString("CopyToClipboard", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   An error occurred. Plese retry again. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ErrorPrRetry {

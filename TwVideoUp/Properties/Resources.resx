@@ -177,4 +177,10 @@
   <data name="ReportTo" xml:space="preserve">
     <value>Report to:</value>
   </data>
+  <data name="Copied" xml:space="preserve">
+    <value>Copied.</value>
+  </data>
+  <data name="CopyToClipboard" xml:space="preserve">
+    <value>Copy to Clipboard.</value>
+  </data>
 </root>
