@@ -79,7 +79,7 @@ namespace TwVideoUp
 
         private void RepoteUnhandleException(Exception ex)
         {
-            createErrorWindow(ex).ShowDialog();
+            CreateErrorWindow(ex).ShowDialog();
             Shutdown();
         }
 
@@ -89,16 +89,10 @@ namespace TwVideoUp
             e.Handled = true;
         }
 
-        private static Window createErrorWindow(Exception ex)
+        private static Window CreateErrorWindow(Exception ex)
         {
-            var b = new Button {Content = new TextBlock {Text = "Copy to Clipboard."}};
-            var w = new Window
-            {
-                Width = 600,
-                Height = 550,
-                Padding = new Thickness(20),
-                Title = string.Format("{0} - {1}", "予期せぬエラー", "TwVideoUp")
-            };
+            var copyBtn = new Button {Content = new TextBlock {Text = "Copy to Clipboard."}};
+            copyBtn.Click += (sender, args) => Clipboard.SetText(ex.ToString());
             var reportTo = new TextBlock
             {
                 TextWrapping = TextWrapping.Wrap,
@@ -124,34 +118,37 @@ namespace TwVideoUp
             hyperlink.RequestNavigate += Hyperlink_Nav;
             reportTo.Inlines.Add(hyperlink);
 
-
-            var m = new StackPanel
+            return new Window
             {
-                Orientation = Orientation.Vertical,
-                Children =
+                Width = 600,
+                Height = 550,
+                Padding = new Thickness(20),
+                Title = string.Format("{0} - {1}", "予期せぬエラー", "TwVideoUp"),
+                Content = new StackPanel
                 {
-                    new TextBlock
+                    Orientation = Orientation.Vertical,
+                    Children =
                     {
-                        Text =
-                            "予期せぬエラーが発生しました。以下のStackTraceをIssueとして提出いただけると嬉しいです。(ユーザー名などが含まれている場合は伏せていただいて構いません。)",
-                        TextWrapping = TextWrapping.Wrap
-                    },
-                    new TextBox
-                    {
-                        Text = ex.ToString(),
-                        IsReadOnly = true,
-                        TextWrapping = TextWrapping.Wrap,
-                        Margin = new Thickness(10),
-                        MaxHeight = 380,
-                        VerticalScrollBarVisibility = ScrollBarVisibility.Auto
-                    },
-                    b,
-                    reportTo,
+                        new TextBlock
+                        {
+                            Text =
+                                "予期せぬエラーが発生しました。以下のStackTraceをIssueとして提出いただけると嬉しいです。(ユーザー名などが含まれている場合は伏せていただいて構いません。)",
+                            TextWrapping = TextWrapping.Wrap
+                        },
+                        new TextBox
+                        {
+                            Text = ex.ToString(),
+                            IsReadOnly = true,
+                            TextWrapping = TextWrapping.Wrap,
+                            Margin = new Thickness(10),
+                            MaxHeight = 380,
+                            VerticalScrollBarVisibility = ScrollBarVisibility.Auto
+                        },
+                        copyBtn,
+                        reportTo,
+                    }
                 }
             };
-            b.Click += (sender, args) => Clipboard.SetText(ex.ToString());
-            w.Content = m;
-            return w;
         }
     }
 }
