@@ -79,13 +79,25 @@ namespace TwVideoUp
 
         private void RepoteUnhandleException(Exception ex)
         {
+            createErrorWindow(ex).ShowDialog();
+            Shutdown();
+        }
+
+        private static void Hyperlink_Nav(object sender, System.Windows.Navigation.RequestNavigateEventArgs e)
+        {
+            Process.Start(e.Uri.AbsoluteUri);
+            e.Handled = true;
+        }
+
+        private static Window createErrorWindow(Exception ex)
+        {
             var b = new Button {Content = new TextBlock {Text = "Copy to Clipboard."}};
             var w = new Window
             {
                 Width = 600,
                 Height = 550,
-                Padding = new Thickness(0x14),
-                Title = String.Format("{0} - {1}", "予期せぬエラー", "TwVideoUp")
+                Padding = new Thickness(20),
+                Title = string.Format("{0} - {1}", "予期せぬエラー", "TwVideoUp")
             };
             var reportTo = new TextBlock
             {
@@ -139,14 +151,7 @@ namespace TwVideoUp
             };
             b.Click += (sender, args) => Clipboard.SetText(ex.ToString());
             w.Content = m;
-            w.ShowDialog();
-            Shutdown();
-        }
-
-        private static void Hyperlink_Nav(object sender, System.Windows.Navigation.RequestNavigateEventArgs e)
-        {
-            Process.Start(e.Uri.AbsoluteUri);
-            e.Handled = true;
+            return w;
         }
     }
 }
