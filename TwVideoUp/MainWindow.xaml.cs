@@ -46,8 +46,16 @@ namespace TwVideoUp
             };
             DataContext = status;
 
-            if (Settings.Default.token == "")
-                AuthStart();
+            Loaded += (sender, args) =>
+            {
+                if (Settings.Default.token == "")
+                {
+                    AuthStart();
+                    _tokens.AccessToken = Settings.Default.token;
+                    _tokens.AccessTokenSecret = Settings.Default.secret;
+                }
+            };
+
 
             TaskbarItemInfo = new TaskbarItemInfo();
             StatusArea.KeyDown += StatusAreaOnKeyDown;
@@ -57,7 +65,7 @@ namespace TwVideoUp
             _tokens = Tokens.Create(Twitter.CK, Twitter.CS,
                 Settings.Default.token,
                 Settings.Default.secret
-                );
+            );
         }
 
         private static void AuthStart()
@@ -71,6 +79,7 @@ namespace TwVideoUp
             {
                 MessageBox.Show(e.Message, "Error");
             }
+
             if (Settings.Default.token == "")
             {
 #if DEBUG
@@ -323,6 +332,7 @@ namespace TwVideoUp
                     MessageBox.Show(Properties.Resources.NoFileSelected);
                     return;
                 }
+
                 BeforeSendTweet();
 //                await tokens.Statuses.UpdateAsync(status => "TEST");
 
@@ -410,6 +420,7 @@ namespace TwVideoUp
                 dc.Status = "";
                 StatusArea.Text = "";
             }
+
             PGbar.IsIndeterminate = false;
             PGbar.Value = 0;
             SendTweetButton.IsEnabled = true;
