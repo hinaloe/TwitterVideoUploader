@@ -32,6 +32,7 @@ namespace TwVideoUp
             DispatcherUnhandledException += App_DisatacherUnhandledException;
             AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
 
+            SetAeroLiteStyle();
 
             var window = new MainWindow();
 
@@ -45,6 +46,23 @@ namespace TwVideoUp
 
             window.Show();
         }
+
+        /// <summary>
+        /// Windows 7 等のスタイルをAero Liteに設定します。
+        /// </summary>
+        private void SetAeroLiteStyle()
+        {
+            var version = Environment.OSVersion.Version;
+            if (version.Major > 6 || version.Minor > 1) {
+                return;
+            }
+            var theme = new ResourceDictionary()
+            {
+                Source = new Uri(@"/PresentationFramework.Aero2;component/themes/aero2.normalcolor.xaml", UriKind.Relative)
+            };
+            Resources.MergedDictionaries.Add(theme);
+        }
+
 
         /// <summary>
         /// アプリケーション終了時のイベントハンドラ
