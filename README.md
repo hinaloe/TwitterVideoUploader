@@ -35,6 +35,9 @@ Windows 7,8,10
 >
 > Quote from [Twitter Uploading Media](https://developer.twitter.com/en/docs/media/upload-media/uploading-media/media-best-practices)
 
+## Build Environment
+- **Require** Visual Studio 2017 or later (because using C# 7.x)
+  - .NET Desktop development
 
 ## License
 

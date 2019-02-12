@@ -19,7 +19,7 @@ namespace TwVideoUp.Properties {
     // または Visual Studio のようなツールを使用して自動生成されました。
     // メンバーを追加または削除するには、.ResX ファイルを編集して、/str オプションと共に
     // ResGen を実行し直すか、または VS プロジェクトをビルドし直します。
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "15.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     public class Resources {
@@ -47,7 +47,7 @@ namespace TwVideoUp.Properties {
         }
         
         /// <summary>
-        ///   厳密に型指定されたこのリソース クラスを使用して、すべての検索リソースに対し、
+        ///   すべてについて、現在のスレッドの CurrentUICulture プロパティをオーバーライドします
         ///   現在のスレッドの CurrentUICulture プロパティをオーバーライドします。
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
@@ -93,6 +93,24 @@ namespace TwVideoUp.Properties {
         public static string columnUrl {
             get {
                 return ResourceManager.GetString("columnUrl", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Copied. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string Copied {
+            get {
+                return ResourceManager.GetString("Copied", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Copy to Clipboard. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string CopyToClipboard {
+            get {
+                return ResourceManager.GetString("CopyToClipboard", resourceCulture);
             }
         }
         
@@ -183,6 +201,15 @@ namespace TwVideoUp.Properties {
         public static string NoFileSelected {
             get {
                 return ResourceManager.GetString("NoFileSelected", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Report to: に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ReportTo {
+            get {
+                return ResourceManager.GetString("ReportTo", resourceCulture);
             }
         }
         
