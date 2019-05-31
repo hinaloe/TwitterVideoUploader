@@ -3,8 +3,15 @@
 # Add steps that publish symbols, save build artifacts, and more:
 # https://docs.microsoft.com/azure/devops/pipelines/apps/windows/dot-net
 
+jobs:
+- job: debug
+  variables:
+  buildConfiguration: 'Debug'
+- job: release
+
 pool:
   vmImage: 'VS2017-Win2016'
+
 
 variables:
   solution: '**/*.sln'
