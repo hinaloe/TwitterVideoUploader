@@ -31,7 +31,7 @@ steps:
 
 - task: CopyFiles@2
   inputs:
-    SourceFolder: $(Agent.BuildDirectory)
+    SourceFolder: $(Agent.BuildDirectory)/TwVideoUp/bin
     Contents: '**'
     TargetFolder: '$(Build.ArtifactStagingDirectory)/dest'
     CleanTargetFolder: true
