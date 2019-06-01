@@ -59,7 +59,7 @@ namespace TwVideoUp
 
             TaskbarItemInfo = new TaskbarItemInfo();
             StatusArea.KeyDown += StatusAreaOnKeyDown;
-
+            
             ContextMenuGen();
 
             _tokens = Tokens.Create(Twitter.CK, Twitter.CS,
@@ -72,7 +72,7 @@ namespace TwVideoUp
         {
             try
             {
-                AuthWindow w = new AuthWindow();
+                var w = new AuthWindow();
                 w.ShowDialog();
             }
             catch (Exception e)
@@ -146,7 +146,7 @@ namespace TwVideoUp
             _tokens = Tokens.Create(Twitter.CK, Twitter.CS,
                 Settings.Default.token,
                 Settings.Default.secret
-                );
+            );
         }
 
         /// <summary>
@@ -180,26 +180,30 @@ namespace TwVideoUp
             {
                 dir = null;
             }
+
             var filename = fileDialog_Open(dir);
             if (filename == null)
             {
                 return;
             }
+
             context.Media = new Uri(filename);
             var fi = new FileInfo(filename);
             var fileSize = fi.Length;
-            if (fileSize > 512*1024*1024)
+            if (fileSize > 512 * 1024 * 1024)
             {
 //                MessageBox.Show(Properties.Resources.FileSizeTooLarge, Properties.Resources.Attention);
                 Dialog(Properties.Resources.Attention, Properties.Resources.InsFileSizeTooLarge,
                     Properties.Resources.FileSizeTooLarge, TaskDialogStandardIcon.Warning).Show();
             }
-            if (Duration(filename) > 140*1000)
+
+            if (Duration(filename) > 140 * 1000)
             {
 //                MessageBox.Show(Properties.Resources.MediaTooLong, Properties.Resources.Attention);
                 Dialog(Properties.Resources.Attention, Properties.Resources.InsMediaTooLong,
                     Properties.Resources.MediaTooLong, TaskDialogStandardIcon.Warning).Show();
             }
+
             Console.WriteLine(mediaElement.Height);
             mediaElement.Source = context.Media;
         }
@@ -292,14 +296,12 @@ namespace TwVideoUp
         /// <param name="uri"></param>
         private void openMediaPreviewWindow(Uri uri)
         {
-            var media = new MediaElement {Source = uri};
-            var c = new Window
+            new Window
             {
-                Content = media,
+                Content = new MediaElement {Source = uri},
                 Title = "Preview",
                 WindowStyle = WindowStyle.ToolWindow
-            };
-            c.Show();
+            }.Show();
         }
 
         private void mediaElement_SourceUpdated(object sender, DataTransferEventArgs e)
@@ -352,7 +354,7 @@ namespace TwVideoUp
                 Status s = await _tokens.Statuses.UpdateAsync(
                     status => text,
                     media_ids => result.MediaId
-                    );
+                );
                 AfterSendTweet(SUCCESS);
                 // めんどくさいのでツイート処理は別添え
                 SucceedUpload(s);
@@ -404,7 +406,7 @@ namespace TwVideoUp
             PGbar.IsIndeterminate = false;
             PGbar.Value = progress;
             TaskbarItemInfo.ProgressState = TaskbarItemProgressState.Normal;
-            TaskbarItemInfo.ProgressValue = progress/100.0;
+            TaskbarItemInfo.ProgressValue = progress / 100.0;
         }
 
         /// <summary>
@@ -440,12 +442,12 @@ namespace TwVideoUp
         private double Duration(string file)
         {
             var so = ShellFile.FromFilePath(file);
-            double nanoseconds;
-            double.TryParse(so.Properties.System.Media.Duration.Value.ToString(), out nanoseconds);
-            if (nanoseconds > 0)
+            var nanoseconds = so.Properties.System.Media.Duration.Value;
+            if (nanoseconds != null && nanoseconds > 0)
             {
-                return nanoseconds*0.0001;
+                return nanoseconds.Value * 0.0001;
             }
+
             return 0;
         }
 
