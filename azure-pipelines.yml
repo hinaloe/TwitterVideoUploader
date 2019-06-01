@@ -2,49 +2,55 @@
 # Build and run tests for .NET Desktop or Windows classic desktop solutions.
 # Add steps that publish symbols, save build artifacts, and more:
 # https://docs.microsoft.com/azure/devops/pipelines/apps/windows/dot-net
+jobs:
+- job: Build
+  pool:
+    vmImage: 'VS2017-Win2016'
 
-pool:
-  vmImage: 'VS2017-Win2016'
+  variables:
+    solution: '**/*.sln'
+    buildPlatform: 'Any CPU'
+  strategy:
+    matrix:
+      Release:
+        buildConfiguration: Release
+      Debug:
+        buildConfiguration: Debug
+  steps:
+  - task: NuGetToolInstaller@0
 
-variables:
-  solution: '**/*.sln'
-  buildPlatform: 'Any CPU'
-  buildConfiguration: 'Release'
+  - task: NuGetCommand@2
+    inputs:
+      restoreSolution: '$(solution)'
 
-steps:
-- task: NuGetToolInstaller@0
+  - task: VSBuild@1
+    inputs:
+      solution: '$(solution)'
+      platform: '$(buildPlatform)'
+      configuration: '$(buildConfiguration)'
 
-- task: NuGetCommand@2
-  inputs:
-    restoreSolution: '$(solution)'
+  - task: VSTest@2
+    inputs:
+      platform: '$(buildPlatform)'
+      configuration: '$(buildConfiguration)'
+      codeCoverageEnabled: true
 
-- task: VSBuild@1
-  inputs:
-    solution: '$(solution)'
-    platform: '$(buildPlatform)'
-    configuration: '$(buildConfiguration)'
+  - task: CopyFiles@2
+    inputs:
+      SourceFolder: $(Build.SourcesDirectory)/TwVideoUp/bin
+      Contents: '**'
+      TargetFolder: '$(Build.ArtifactStagingDirectory)/dest'
+      CleanTargetFolder: true
+    condition: succeeded()
 
-- task: VSTest@2
-  inputs:
-    platform: '$(buildPlatform)'
-    configuration: '$(buildConfiguration)'
-
-- task: CopyFiles@2
-  inputs:
-    SourceFolder: $(Build.SourcesDirectory)/TwVideoUp/bin
-    Contents: '**'
-    TargetFolder: '$(Build.ArtifactStagingDirectory)/dest'
-    CleanTargetFolder: true
-  condition: succeeded()
-
-# - task: ArchiveFiles@2
-#   inputs:
-#     rootFolderOrFile: '$(Build.BinariesDirectory)'
-#     includeRootFolder: true
-#     archiveType: 'zip'
-#     archiveFile: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
-#     replaceExistingArchive: true
-- task: PublishBuildArtifacts@1
-  inputs:
-    pathtoPublish: $(Build.ArtifactStagingDirectory)
-    artifactName: twvideoup-$(buildConfiguration)
+  # - task: ArchiveFiles@2
+  #   inputs:
+  #     rootFolderOrFile: '$(Build.BinariesDirectory)'
+  #     includeRootFolder: true
+  #     archiveType: 'zip'
+  #     archiveFile: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
+  #     replaceExistingArchive: true
+  - task: PublishBuildArtifacts@1
+    inputs:
+      pathtoPublish: $(Build.ArtifactStagingDirectory)
+      artifactName: twvideoup-$(buildConfiguration)
