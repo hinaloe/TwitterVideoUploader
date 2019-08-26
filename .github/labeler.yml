@@ -1,4 +1,4 @@
 documents:
-- **/*.md
+- "**/*.md"
 workflow:
-- .github/workflows/**/*
+- ".github/workflows/**/*"
