@@ -9,6 +9,7 @@
 using System;
 using System.Diagnostics;
 using System.IO;
+using System.Net;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -32,6 +33,7 @@ namespace TwVideoUp
             DispatcherUnhandledException += App_DisatacherUnhandledException;
             AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
 
+            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
 
             var window = new MainWindow();
 
