@@ -7,7 +7,7 @@ Upload movie to Twitter from Your Win PC!
 
 ## Requirements
 
-- .NET Framework 4.5
+- .NET Framework 4.5.2
 - CoreTweet 0.5.2+
 
 ## Tested on
