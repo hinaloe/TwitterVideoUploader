@@ -32,7 +32,6 @@ namespace TwVideoUp
 
             DataContext = new db();
             //            InitAuth();
-
         }
 
         private OAuth.OAuthSession _session;
@@ -89,7 +88,6 @@ namespace TwVideoUp
                     Icon = TaskDialogStandardIcon.Error
                 }.Show();
                 return;
-
             }
             catch (WebException ex)
             {
@@ -107,7 +105,6 @@ namespace TwVideoUp
             Settings.Default.secret = _tokens.AccessTokenSecret;
             Settings.Default.Save();
             Close();
-
         }
 
         /// <summary>
@@ -127,11 +124,11 @@ namespace TwVideoUp
             _code = pin.Text;
             if (_code.Length == 7 && int.TryParse(_code, out _) && authButton.IsEnabled == false)
             {
-                    authButton.IsEnabled = true;
+                authButton.IsEnabled = true;
             }
             else if (authButton.IsEnabled)
             {
-                    authButton.IsEnabled = false;
+                authButton.IsEnabled = false;
             }
         }
 
@@ -139,8 +136,8 @@ namespace TwVideoUp
         {
             if (e.Key == Key.Return && authButton.IsEnabled)
             {
-                authButton_Click(sender,e);
+                authButton_Click(sender, e);
             }
-}
+        }
     }
 }

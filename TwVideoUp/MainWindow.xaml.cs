@@ -274,14 +274,14 @@ namespace TwVideoUp
         private void m_OpenWindow_Click(object sender, RoutedEventArgs e)
         {
             var context = DataContext as StatusWM;
-            openMediaPreviewWindow(context.Media);
+            OpenMediaPreviewWindow(context.Media);
         }
 
         /// <summary>
         /// 新しいウインドウでプレビュー
         /// </summary>
         /// <param name="uri"></param>
-        private void openMediaPreviewWindow(Uri uri)
+        private void OpenMediaPreviewWindow(Uri uri)
         {
             var media = new MediaElement {Source = uri};
             var c = new Window
@@ -304,9 +304,9 @@ namespace TwVideoUp
         /// </summary>
         /// <param name="uri">Media Uri</param>
         /// <param name="status">Tweet content</param>
-        private void updateWithMedia(Uri uri, String status)
+        private void UpdateWithMedia(Uri uri, String status)
         {
-            updateWithMedia(status, uri);
+            UpdateWithMedia(status, uri);
         }
 
         /// <summary>
@@ -314,7 +314,7 @@ namespace TwVideoUp
         /// </summary>
         /// <param name="text">Tweet content.</param>
         /// <param name="uri">Media Uri</param>
-        private async void updateWithMedia(String text, Uri uri)
+        private async void UpdateWithMedia(String text, Uri uri)
         {
             try
             {
@@ -372,7 +372,7 @@ namespace TwVideoUp
         private void SendTweet()
         {
             var dc = DataContext as StatusWM;
-            updateWithMedia(dc.Status, dc.Media);
+            UpdateWithMedia(dc.Status, dc.Media);
         }
 
         /// <summary>
