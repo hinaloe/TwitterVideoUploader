@@ -52,6 +52,7 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <AppDesigner Include="Properties\" />
+    <None Remove="Properties\TrimManifest.xml" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.5">
@@ -88,4 +89,17 @@
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
   </ItemGroup>
+  <Target Name="EnsureAllAssembliesAreLinked" BeforeTargets="PrepareForILLink">
+    <ItemGroup>
+<!--
+      <ManagedAssemblyToLink>
+        <TrimMode>link</TrimMode>
+      </ManagedAssemblyToLink>
+-->
+
+      <TrimmerRootAssembly Include="System.Runtime" />
+      <TrimmerRootAssembly Include="System.Diagnostics.Debug" />
+      <TrimmerRootAssembly Include="System.Runtime.Extensions" />
+    </ItemGroup>
+  </Target>
 </Project>

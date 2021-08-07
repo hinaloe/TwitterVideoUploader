@@ -124,4 +124,26 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: twvideoup-${{ matrix.configuration }}-${{ steps.vars.outputs.sha_short }}
-          path: TwVideoUp\bin\${{ matrix.configuration }}
+          path: TwVideoUp\bin\${{ matrix.configuration }}\net5.0-windows
+          
+      - name: Publish minimum package
+        run: dotnet publish -p:PublishSingleFile=true --self-contained false -r win-x64 -c $env:Configuration -o TwVideoUp/bin/$env:Configuration/net5.0-windows/win-x64/publish/twvideoup-win-x64/
+        env:
+          Configuration: ${{ matrix.configuration }}
+      - name: Upload build artifcats (Win x64)
+        uses: actions/upload-artifact@v2
+        with:
+          name: twvideoup-${{ matrix.configuration }}-win-x64-${{ steps.vars.outputs.sha_short }}
+          path: TwVideoUp\bin\${{ matrix.configuration }}\net5.0-windows\win-x64\publish\twvideoup-win-x64
+
+      - name: Publish standalone package
+        run: dotnet publish -p:PublishSingleFile=true --self-contained true -r win-x64 -c $env:Configuration -p:PublishTrimmed=true -o TwVideoUp/bin/$env:Configuration/net5.0-windows/win-x64/publish/twvideoup-win-x64-standalone/
+        env:
+          Configuration: ${{ matrix.configuration }}
+        if: matrix.configuration == 'Release'
+      - name: Upload build artifcats (Win x64 standalone)
+        uses: actions/upload-artifact@v2
+        with:
+          name: twvideoup-${{ matrix.configuration }}-win-x64-${{ steps.vars.outputs.sha_short }}
+          path: TwVideoUp\bin\${{ matrix.configuration }}\net5.0-windows\win-x64\publish\twvideoup-win-x64-standalone
+        if: matrix.configuration == 'Release'
