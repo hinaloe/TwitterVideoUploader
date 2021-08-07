@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -13,25 +14,28 @@ namespace TwVideoUp
     /// </summary>
     public partial class EntitiesInfoWindow : Window
     {
-        private EntitiesInfoWindow()
+        private EntitiesInfoWindow(Entities entities)
         {
             InitializeComponent();
-            
+            Entities = entities;
+            Loaded += new RoutedEventHandler(InitializeData);
         }
 
-        private void DataSet(Entities entities)
+        Entities Entities { get; }
+
+        private void InitializeData(object sender, EventArgs eventArgs)
         {
-            var variants = entities.Media[0].VideoInfo.Variants;
-            Title = Format(Properties.Resources.AboutThis, entities.Media[0].DisplayUrl);
+            var media = Entities.Media[0];
+            var variants = media.VideoInfo.Variants;
+            Title = Format(Properties.Resources.AboutThis, media.DisplayUrl);
             dataGrid.ItemsSource = variants;
         }
 
         public static EntitiesInfoWindow ShowVideoInfo(Entities entities)
         {
-            var w = new EntitiesInfoWindow();
-            w.DataSet(entities);
-            w.Show();
-            return w;
+            var window = new EntitiesInfoWindow(entities);
+            window.Show();
+            return window;
         }
 
         private void DataGrid_OnAutoGeneratingColumn(object sender, DataGridAutoGeneratingColumnEventArgs e)
@@ -51,7 +55,7 @@ namespace TwVideoUp
 
                 case "Url":
                     var style = new Style(typeof (TextBlock));
-                    style.Setters.Add(new EventSetter(Hyperlink.ClickEvent,(RoutedEventHandler)Hyperlink_Clickhandler));
+                    style.Setters.Add(new EventSetter(Hyperlink.ClickEvent,(RoutedEventHandler)Hyperlink_ClickHandler));
                     var c = new DataGridHyperlinkColumn()
                     {
                         Header = Properties.Resources.columnUrl,
@@ -67,7 +71,7 @@ namespace TwVideoUp
             }
         }
 
-        private void Hyperlink_Clickhandler(object sender, RoutedEventArgs e)
+        private void Hyperlink_ClickHandler(object sender, RoutedEventArgs e)
         {
             Process.Start(((Hyperlink) e.OriginalSource).NavigateUri.ToString());
         }
