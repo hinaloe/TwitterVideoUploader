@@ -33,7 +33,7 @@ namespace TwVideoUp
             DispatcherUnhandledException += App_DisatacherUnhandledException;
             AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
 
-            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
+            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12 | SecurityProtocolType.Tls13;
 
             var window = new MainWindow();
 
@@ -88,7 +88,11 @@ namespace TwVideoUp
 
         private static void Hyperlink_Nav(object sender, System.Windows.Navigation.RequestNavigateEventArgs e)
         {
-            Process.Start(e.Uri.AbsoluteUri);
+            Process.Start(new ProcessStartInfo
+            {
+                FileName = e.Uri.AbsoluteUri,
+                UseShellExecute = true,
+            });
             e.Handled = true;
         }
 

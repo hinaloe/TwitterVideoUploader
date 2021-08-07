@@ -24,7 +24,11 @@ namespace TwVideoUp
 
         private void Hyperlink_Nav(object sender, System.Windows.Navigation.RequestNavigateEventArgs e)
         {
-            Process.Start(e.Uri.AbsoluteUri);
+            Process.Start(new ProcessStartInfo
+            {
+                FileName = e.Uri.AbsoluteUri,
+                UseShellExecute = true,
+            });
             e.Handled = true;
         }
     }

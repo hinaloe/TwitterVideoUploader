@@ -73,7 +73,12 @@ namespace TwVideoUp
 
         private void Hyperlink_ClickHandler(object sender, RoutedEventArgs e)
         {
-            Process.Start(((Hyperlink) e.OriginalSource).NavigateUri.ToString());
+            Process.Start(new ProcessStartInfo
+            {
+                FileName = ((Hyperlink) e.OriginalSource).NavigateUri.ToString(),
+                UseShellExecute = true,
+            });
+            e.Handled = true;
         }
 
     }
