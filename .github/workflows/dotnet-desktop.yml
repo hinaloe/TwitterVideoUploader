@@ -117,8 +117,11 @@ jobs:
 #          name: MSIX Package
 #          path: ${{ env.Wap_Project_Directory }}\AppPackages
 
+      - name: Set outputs
+        id: vars
+        run: echo "::set-output name=sha_short::$(git rev-parse --short HEAD)"
       - name: Upload build artifcats
         uses: actions/upload-artifact@v2
         with:
-          name: built content
-          path: TwVideoUp/bin/${{ matrix.configuration }}
+          name: twvideoup-${{ matrix.configuration }}-${{ steps.vars.outputs.sha_short }}
+          path: TwVideoUp\bin\${{ matrix.configuration }}
