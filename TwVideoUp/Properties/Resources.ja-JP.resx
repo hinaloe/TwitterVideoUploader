@@ -187,4 +187,7 @@
   <data name="CopyToClipboard" xml:space="preserve">
     <value>クリップボードにコピー</value>
   </data>
+  <data name="columnUrl" xml:space="preserve">
+    <value>URL</value>
+  </data>
 </root>
