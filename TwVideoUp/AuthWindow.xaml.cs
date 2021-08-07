@@ -114,7 +114,11 @@ namespace TwVideoUp
         /// <param name="e"></param>
         private void Hyperlink_RequestNavigate(object sender, RequestNavigateEventArgs e)
         {
-            Process.Start(e.Uri.AbsoluteUri);
+            Process.Start(new ProcessStartInfo
+            {
+                FileName = e.Uri.AbsoluteUri,
+                UseShellExecute = true,
+            });
             e.Handled = true;
         }
 
