@@ -118,7 +118,7 @@ jobs:
 #          path: ${{ env.Wap_Project_Directory }}\AppPackages
 
       - name: Upload build artifcats
-        uses: : actions/upload-artifact@v2
-          with:
-            name: built content
-            path: TwVideoUp/bin/${{ matrix.configuration }}
+        uses: actions/upload-artifact@v2
+        with:
+          name: built content
+          path: TwVideoUp/bin/${{ matrix.configuration }}
